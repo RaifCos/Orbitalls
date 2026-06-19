@@ -3,6 +3,9 @@ using UnityEngine;
 public class GamePlanet : MonoBehaviour {
 
     [SerializeField] private Planet planetType;
+    [SerializeField] private int outputReach;
+
+    [Header("Orbit Properties")]
     [SerializeField] private GamePlanet parentPlanet;
     [SerializeField] private float orbitRadius;
     private float orbitAngle;
@@ -14,7 +17,7 @@ public class GamePlanet : MonoBehaviour {
         gameObject.GetComponent<SpriteRenderer>().sprite = planetType.sprite;
         gameObject.GetComponent<CircleCollider2D>().radius = planetType.colliderRadius;
         if(planetType.elementType != null) {
-            transform.GetChild(0).GetComponent<GameElement>().SetElement(planetType.elementType, planetType.outputDirection, planetType.outputReach);
+            transform.GetChild(0).GetComponent<GameElement>().SetElement(planetType.elementType, planetType.outputDirection, outputReach);
         }
     }
 
