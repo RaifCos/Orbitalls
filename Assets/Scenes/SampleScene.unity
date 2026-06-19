@@ -207,8 +207,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -224,6 +224,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a93097e8d86fc4ea5e5c965e0422d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  parentPlanet: {fileID: 0}
+  orbitRadius: 0
 --- !u!58 &295960389
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -586,6 +588,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a93097e8d86fc4ea5e5c965e0422d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClickableObject
+  parentPlanet: {fileID: 295960385}
+  orbitRadius: 2
 --- !u!58 &1028695107
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -709,7 +713,65 @@ MonoBehaviour:
       m_Action: Planet Spin
       m_Flags: 8
     m_Flags: 0
+  planetOrbit:
+    m_Name: Planet Orbit
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: af441f05-002b-480a-b96d-cc844831e0ca
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: WASD
+      m_Id: 672d9180-cd89-43c4-9399-0246470bef2a
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Orbit
+      m_Flags: 4
+    - m_Name: negative
+      m_Id: 8eb68c7f-2183-42d1-8e53-a17159d06804
+      m_Path: <Keyboard>/w
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Orbit
+      m_Flags: 8
+    - m_Name: positive
+      m_Id: 0eba9265-bba9-485c-a2bb-ae23a5ae5a42
+      m_Path: <Keyboard>/s
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Orbit
+      m_Flags: 8
+    - m_Name: Arrow Keys
+      m_Id: 4ce4c541-e101-483e-9fc1-8892d0ed1955
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Orbit
+      m_Flags: 4
+    - m_Name: negative
+      m_Id: 46a69e0b-905b-4543-8191-630576c5f5e9
+      m_Path: <Keyboard>/upArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Orbit
+      m_Flags: 8
+    - m_Name: positive
+      m_Id: 02e946f6-6d65-43fe-a583-328d39aa42e8
+      m_Path: <Keyboard>/downArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Orbit
+      m_Flags: 8
+    m_Flags: 0
   planetSpinSpeed: 30
+  planetOrbitSpeed: 30
 --- !u!114 &1390151092
 MonoBehaviour:
   m_ObjectHideFlags: 0
