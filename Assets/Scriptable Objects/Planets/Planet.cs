@@ -12,5 +12,5 @@ public class Planet : ScriptableObject {
     [Header("Planet Properties")]
     public Element elementType;
     public int outputDirection; // 0 = None, 1 = Ray, 2 = Radial
-    public float colliderRadius; 
+    public float radius; 
 }

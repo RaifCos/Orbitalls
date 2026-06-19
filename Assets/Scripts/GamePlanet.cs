@@ -15,9 +15,12 @@ public class GamePlanet : MonoBehaviour {
     void Awake() {
         gameObject.name = planetType.externalName;
         gameObject.GetComponent<SpriteRenderer>().sprite = planetType.sprite;
-        gameObject.GetComponent<CircleCollider2D>().radius = planetType.colliderRadius;
+        gameObject.GetComponent<CircleCollider2D>().radius = planetType.radius;
         if(planetType.elementType != null) {
-            transform.GetChild(0).GetComponent<GameElement>().SetElement(planetType.elementType, planetType.outputDirection, outputReach);
+            GameObject elementGO = transform.GetChild(0).gameObject;
+            if (planetType.outputDirection == 1) elementGO.transform.localPosition = new Vector3(0f, 0.5f + planetType.radius, 0f);
+            else elementGO.SetActive(false);
+            elementGO.GetComponent<GameElement>().SetElement(planetType.elementType, planetType.outputDirection, outputReach);
         }
     }
 
