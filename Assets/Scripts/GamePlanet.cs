@@ -16,11 +16,14 @@ public class GamePlanet : MonoBehaviour {
         gameObject.name = planetType.externalName;
         gameObject.GetComponent<SpriteRenderer>().sprite = planetType.sprite;
         gameObject.GetComponent<CircleCollider2D>().radius = planetType.radius;
-        if(planetType.elementType != null) {
+        if (planetType.elementType != null) {
             GameObject elementGO = transform.GetChild(0).gameObject;
-            if (planetType.outputDirection == 1) elementGO.transform.localPosition = new Vector3(0f, 0.5f + planetType.radius, 0f);
-            else elementGO.SetActive(false);
-            elementGO.GetComponent<GameElement>().SetElement(planetType.elementType, planetType.outputDirection, outputReach);
+            if (planetType.outputDirection == 0) {
+                elementGO.SetActive(false);
+            } else {
+                if (planetType.outputDirection == 1) elementGO.transform.localPosition = new Vector3(0f, 0.5f + planetType.radius, 0f);
+                elementGO.GetComponent<GameElement>().SetElement(planetType.elementType, planetType.outputDirection, outputReach);
+            }
         }
     }
 

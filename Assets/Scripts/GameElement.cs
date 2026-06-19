@@ -5,18 +5,20 @@ public class GameElement : MonoBehaviour {
 
     public void SetElement(Element element, int direction, int reach) {
         gameObject.name = element.internalName;
-        
-        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-        sr.sprite = direction switch {
-            1 => element.raySprite,
-            2 => element.radialSprite,
-            _ => null,
-        };
 
-        transform.localScale = direction switch {
-            1 => new Vector3(1f, reach, 1f),   
-            2 => new Vector3(reach, reach, 1f),
-            _ => Vector3.one,
-        };
+        switch (direction) {
+            case 1:
+                gameObject.GetComponent<SpriteRenderer>().sprite = element.raySprite;
+                transform.localScale = new Vector3(1f, reach, 1f);
+                break;
+            case 2:
+                gameObject.GetComponent<SpriteRenderer>().sprite = element.radialSprite;
+                transform.localScale = new Vector3(reach, reach, 1f);
+                break;
+            default:
+                transform.localScale = Vector3.one;
+                break;
+        }
+
     }
 }
