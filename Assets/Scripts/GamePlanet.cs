@@ -13,6 +13,9 @@ public class GamePlanet : MonoBehaviour {
         gameObject.name = planetType.externalName;
         gameObject.GetComponent<SpriteRenderer>().sprite = planetType.sprite;
         gameObject.GetComponent<CircleCollider2D>().radius = planetType.colliderRadius;
+        if(planetType.elementType != null) {
+            transform.GetChild(0).GetComponent<GameElement>().SetElement(planetType.elementType, planetType.outputDirection, planetType.outputReach);
+        }
     }
 
     public void DriveOrbit(float speed, float deltaTime) {
