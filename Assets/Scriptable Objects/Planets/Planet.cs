@@ -16,5 +16,4 @@ public class Planet : ScriptableObject {
 
     [Header("Elemental Properties")]
     public Element element;
-    public float reach; 
 }
