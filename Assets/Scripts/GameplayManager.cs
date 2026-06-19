@@ -13,7 +13,7 @@ public class GameplayManager : MonoBehaviour {
 
     [Header("Selected Planet")]
     private GameObject selectedPlanet;
-    private Planet selectedPlanetComponent;
+    private GamePlanet selectedPlanetComponent;
     
     private void Awake() { GameManager.gameplayManager = this; }
 
@@ -27,7 +27,7 @@ public class GameplayManager : MonoBehaviour {
 
             if (hit.collider != null) {
                 selectedPlanet = hit.collider.gameObject;
-                selectedPlanetComponent = selectedPlanet.GetComponent<Planet>();
+                selectedPlanetComponent = selectedPlanet.GetComponent<GamePlanet>();
             }
         }
 
