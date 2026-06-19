@@ -35,11 +35,11 @@ public class GameplayManager : MonoBehaviour {
             // Spin Planet around its own axis.
             float spinInput = planetSpin.ReadValue<float>();
             selectedPlanet.transform.Rotate(Vector3.forward, spinInput * planetSpinSpeed * Time.deltaTime);
-
+            
             // Orbit Planet around its parent (if applicable).
-            if (selectedPlanet.GetComponent<Planet>().OrbitsPlanet == true) {
+            if (selectedPlanetComponent.OrbitsPlanet) {
                 float orbitInput = planetOrbit.ReadValue<float>();
-                selectedPlanetComponent.Orbit(orbitInput * planetOrbitSpeed, Time.deltaTime);
+                selectedPlanetComponent.DriveOrbit(orbitInput * planetOrbitSpeed, Time.deltaTime); // Only drives angle
             }
         }
     }
