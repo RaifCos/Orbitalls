@@ -652,6 +652,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6b2c86a09eb774bae0ee3b3f66ba99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  planetSpin:
+    m_Name: Planet Spin
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 64191084-c347-42a1-914e-410d8721780a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: WASD
+      m_Id: 8c0817dd-9b77-4558-b5df-76616b437cd9
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Spin
+      m_Flags: 4
+    - m_Name: positive
+      m_Id: a99b77b3-f2a1-491d-814c-beb703f96212
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Spin
+      m_Flags: 8
+    - m_Name: negative
+      m_Id: 9c47840e-3031-4e94-a456-d7969a14340a
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Spin
+      m_Flags: 8
+    - m_Name: Arrow Keys
+      m_Id: 74287784-16bf-47e7-9c68-42f534e3dac2
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Spin
+      m_Flags: 4
+    - m_Name: positive
+      m_Id: bc234014-2798-4446-a6be-f4c84cd534d4
+      m_Path: <Keyboard>/leftArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Spin
+      m_Flags: 8
+    - m_Name: negative
+      m_Id: f247ebe2-45ec-4e52-9246-9a8d23b04f17
+      m_Path: <Keyboard>/rightArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Planet Spin
+      m_Flags: 8
+    m_Flags: 0
+  planetSpinSpeed: 30
 --- !u!114 &1390151092
 MonoBehaviour:
   m_ObjectHideFlags: 0
