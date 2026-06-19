@@ -9,8 +9,12 @@ public class Planet : ScriptableObject {
     public string description;
     public Sprite sprite;
 
-    [Header("Planet Properties")]
-    public Element elementType;
-    public int outputDirection; // 0 = None, 1 = Ray, 2 = Radial
-    public float radius; 
+    [Header("Planet Traits")]
+    public int heat;
+    public int humidity;
+    public int atmosphere;
+
+    [Header("Elemental Properties")]
+    public Element element;
+    public float reach; 
 }
