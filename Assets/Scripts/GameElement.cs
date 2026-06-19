@@ -6,6 +6,8 @@ public class GameElement : MonoBehaviour {
     private Element element;
     private float parentRadius;
     private GamePlanet currentHit;
+    private int missFrameCount = 0;
+    private const int MissFrameThreshold = 20;
 
     void Start() => planetLayer = LayerMask.GetMask("Planet");
 
@@ -42,9 +44,24 @@ public class GameElement : MonoBehaviour {
             hitPlanet = found;
         }
 
-        if (hitPlanet != null && hitPlanet != currentHit) ElementHit(hitPlanet);
+        if (hitPlanet != null) {
+            missFrameCount = 0; // reset miss counter whenever we hit something
+            if (hitPlanet != currentHit) {
+                ElementHit(hitPlanet);
+                currentHit = hitPlanet;
+            }
+        } else {
+            missFrameCount++;
+            if (missFrameCount >= MissFrameThreshold && currentHit != null) {
+                ElementExited(currentHit);
+                currentHit = null;
+                missFrameCount = 0;
+            }
+        }
+    }
 
-        currentHit = hitPlanet;
+    private void ElementExited(GamePlanet target) {
+        Debug.Log($"Element {element.internalName} left planet {target.name}");
     }
 
     private void ElementHit(GamePlanet target) {
