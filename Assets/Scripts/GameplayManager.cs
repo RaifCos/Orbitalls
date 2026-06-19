@@ -23,9 +23,10 @@ public class GameplayManager : MonoBehaviour {
     private void Update() {
         if (Mouse.current.leftButton.wasPressedThisFrame) {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+            int planetLayer = LayerMask.GetMask("Planet");
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, planetLayer);
 
-            if (hit.collider != null && hit.collider.CompareTag("Planet")) {
+            if (hit.collider != null) {
                 selectedPlanet = hit.collider.gameObject;
                 selectedPlanetComponent = selectedPlanet.GetComponent<GamePlanet>();
             }

@@ -9,11 +9,13 @@ public class GameElement : MonoBehaviour {
         switch (direction) {
             case 1:
                 gameObject.GetComponent<SpriteRenderer>().sprite = element.raySprite;
+                gameObject.GetComponent<BoxCollider2D>().enabled = true;
                 transform.localScale = new Vector3(1f, reach, 1f);
                 break;
             case 2:
                 gameObject.GetComponent<SpriteRenderer>().sprite = element.radialSprite;
-                transform.localScale = new Vector3(reach, reach, 1f);
+                gameObject.GetComponent<CircleCollider2D>().enabled = true;
+                transform.localScale = new Vector3(reach * 2f, reach * 2f, 1f);
                 break;
             default:
                 transform.localScale = Vector3.one;
