@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   planetType: {fileID: 11400000, guid: 2c01cd857bbcfc74ca5d7c38debd1f50, type: 2}
-  outputReach: 0
+  outputReach: 2
   parentPlanet: {fileID: 0}
   orbitRadius: 0
 --- !u!58 &295960389
@@ -935,7 +935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   planetType: {fileID: 11400000, guid: f0ec9ada26dac9f48b208a0cd36fdaee, type: 2}
-  outputReach: 0
+  outputReach: 1
   parentPlanet: {fileID: 295960388}
   orbitRadius: 2
 --- !u!212 &1468541981
