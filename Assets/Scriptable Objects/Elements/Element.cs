@@ -7,7 +7,6 @@ public class Element : ScriptableObject {
     public string externalName;
     [TextArea(3, 6)]
     public string description;
-    public Sprite raySprite;
-    public Sprite radialSprite;
+    public Sprite sprite;
 
 }

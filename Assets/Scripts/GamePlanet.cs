@@ -17,7 +17,6 @@ public class GamePlanet : MonoBehaviour {
     void Awake() {
         gameObject.name = planetType.externalName;
         gameObject.GetComponent<SpriteRenderer>().sprite = planetType.sprite;
-        gameObject.GetComponent<CircleCollider2D>().radius = outputReach;
         
         if (planetType.element != null) {
             GameObject elementGO = transform.GetChild(0).gameObject;

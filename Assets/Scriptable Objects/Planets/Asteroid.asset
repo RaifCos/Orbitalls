@@ -16,6 +16,7 @@ MonoBehaviour:
   externalName: Asteroid
   description: 
   sprite: {fileID: 21300000, guid: 23364587d0a6e534c80b86888d01fffa, type: 3}
-  elementType: {fileID: 0}
-  outputDirection: 0
-  radius: 0.75
+  heat: -1
+  humidity: -1
+  atmosphere: -1
+  element: {fileID: 11400000, guid: 45c91c661fcb96b439654f5617bda321, type: 2}
