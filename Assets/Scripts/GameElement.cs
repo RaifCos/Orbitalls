@@ -55,6 +55,7 @@ public class GameElement : MonoBehaviour {
         float adjustedReach = reach - parentRadius;
 
         RaycastHit2D hit = Physics2D.Raycast(offsetOrigin, rayDir, adjustedReach, planetLayer);
+        Debug.DrawRay(offsetOrigin, rayDir * adjustedReach, hit.collider != null ? Color.red : Color.green);
         GamePlanet hitPlanet = null;
 
         if (hit.collider != null
@@ -89,6 +90,7 @@ public class GameElement : MonoBehaviour {
             float adjustedDistance = distance - parentRadius;
 
             RaycastHit2D hit = Physics2D.Raycast(offsetOrigin, dir, adjustedDistance, planetLayer);
+            Debug.DrawRay(offsetOrigin, dir * adjustedDistance, hit.collider != null && hit.collider.gameObject == collider.gameObject ? Color.red : Color.yellow);
 
             if (hit.collider != null && hit.collider.gameObject == collider.gameObject) frameHits.Add(hitPlanet);
         }

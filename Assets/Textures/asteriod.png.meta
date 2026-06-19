@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a9dc9c7ce8f377744b61636a352512cc
+guid: 23364587d0a6e534c80b86888d01fffa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7699978436774145253
-    second: Moon_0
+      213: 7511240651082421016
+    second: asteriod_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Moon_0
+      name: asteriod_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 96
-        height: 96
+        x: 11
+        y: 11
+        width: 106
+        height: 106
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5ec271e8791dbda60800000000000000
-      internalID: 7699978436774145253
+      spriteID: 813dd3e63994d3860800000000000000
+      internalID: 7511240651082421016
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Moon_0: 7699978436774145253
+      asteriod_0: 7511240651082421016
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
