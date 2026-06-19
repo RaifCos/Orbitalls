@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class GameElement : MonoBehaviour {
 
-
     public void SetElement(Element element, int direction, int reach) {
         gameObject.name = element.internalName;
 
@@ -22,5 +21,13 @@ public class GameElement : MonoBehaviour {
                 break;
         }
 
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.CompareTag("Planet")) {
+            if (collision.gameObject.TryGetComponent<GamePlanet>(out var otherPlanet)) {
+                Debug.Log($"Element {gameObject.name} collided with Planet {otherPlanet.name}");
+            }
+        }
     }
 }
