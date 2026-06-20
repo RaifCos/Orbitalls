@@ -16,7 +16,7 @@ MonoBehaviour:
   externalName: Sun
   description: 
   sprite: {fileID: 21300000, guid: af53e366face4fb4ba323b2f216c14d3, type: 3}
-  heat: 1
+  heat: 2
   humidity: 1
   atmosphere: 1
   element: {fileID: 0}

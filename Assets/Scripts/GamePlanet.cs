@@ -53,7 +53,7 @@ public class GamePlanet : MonoBehaviour {
         Debug.Log($"Planet {gameObject.name} updated to {currentPlanet.externalName} with traits: Heat={currentPlanet.heat}, Humidity={currentPlanet.humidity}, Atmosphere={currentPlanet.atmosphere}");
         UpdatePlanet();
     }
-
+    
     public void ResetPlanet() {
         currentPlanet = planetType;
         UpdatePlanet();
