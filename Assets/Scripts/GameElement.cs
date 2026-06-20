@@ -46,9 +46,7 @@ public class GameElement : MonoBehaviour {
         Debug.DrawRay(offsetOrigin, rayDir * adjustedReach, hitCenter.collider != null ? Color.red : Color.green);
         Debug.DrawRay(right,        rayDir * adjustedReach, hitRight.collider  != null ? Color.red : Color.green);
 
-        RaycastHit2D hit = hitCenter.collider != null ? hitCenter
-                        : hitLeft.collider   != null ? hitLeft
-                        : hitRight;
+        RaycastHit2D hit = hitCenter.collider != null ? hitCenter : hitLeft.collider != null ? hitLeft : hitRight;
 
         GamePlanet hitPlanet = null;
         if (hit.collider != null
