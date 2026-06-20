@@ -529,6 +529,7 @@ MonoBehaviour:
   planets:
   - {fileID: 11400000, guid: f0ec9ada26dac9f48b208a0cd36fdaee, type: 2}
   - {fileID: 11400000, guid: ed340b24be03fc240a3931798d511ad0, type: 2}
+  - {fileID: 11400000, guid: e604b25c9450e904fa881a8c418b9e9f, type: 2}
 --- !u!58 &625106857540254479
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -906,12 +907,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8740491524576469797, guid: af53e366face4fb4ba323b2f216c14d3, type: 3}
+  m_Sprite: {fileID: 8740491524576469797, guid: 0f055ec962eb8a34293a767865333aa5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.46, y: 2.46}
+  m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1023,10 +1024,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   sprites:
-  - {fileID: 8740491524576469797, guid: af53e366face4fb4ba323b2f216c14d3, type: 3}
-  - {fileID: -8838118737182495800, guid: af53e366face4fb4ba323b2f216c14d3, type: 3}
-  - {fileID: -8664763093570941427, guid: af53e366face4fb4ba323b2f216c14d3, type: 3}
-  - {fileID: -6313178382888641860, guid: af53e366face4fb4ba323b2f216c14d3, type: 3}
+  - {fileID: 8740491524576469797, guid: 0f055ec962eb8a34293a767865333aa5, type: 3}
+  - {fileID: -2121656474, guid: 0f055ec962eb8a34293a767865333aa5, type: 3}
+  - {fileID: -1697790843, guid: 0f055ec962eb8a34293a767865333aa5, type: 3}
+  - {fileID: 276844851, guid: 0f055ec962eb8a34293a767865333aa5, type: 3}
   framesPerSprite: 24
 --- !u!1 &8870396975888502721
 GameObject:

@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: cb1f8e9ccbadd0543ac807982492ba47
+guid: d323be78512a16943b30d2710dffbf92
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6423806749927177598
-    second: Earth_0
+      213: 716459119434627888
+    second: IceAge_0
   - first:
-      213: -3086602609980112195
-    second: Earth_1
+      213: -9041298284725801628
+    second: IceAge_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Earth_0
+      name: IceAge_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 5
-        width: 118
-        height: 118
+        x: 3
+        y: 3
+        width: 122
+        height: 122
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e7d7a2b4432f52950800000000000000
-      internalID: 6423806749927177598
+      spriteID: 03b7dfde5cf51f900800000000000000
+      internalID: 716459119434627888
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Earth_1
+      name: IceAge_1
       rect:
         serializedVersion: 2
-        x: 133
-        y: 5
-        width: 118
-        height: 118
+        x: 131
+        y: 3
+        width: 122
+        height: 122
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: db2875d974f2a25d0800000000000000
-      internalID: -3086602609980112195
+      spriteID: 46de196ec1bd68280800000000000000
+      internalID: -9041298284725801628
       vertices: []
       indices: 
       edges: []
@@ -173,8 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Earth_0: 6423806749927177598
-      Earth_1: -3086602609980112195
+      IceAge_0: 716459119434627888
+      IceAge_1: -9041298284725801628
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
