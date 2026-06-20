@@ -1,10 +1,31 @@
 fileFormatVersion: 2
-guid: 0f055ec962eb8a34293a767865333aa5
+guid: 5f2d2baf8c2c6954987e4bd0fba1234e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8740491524576469797
-    second: Sun_0
+      213: -1205730093252213082
+    second: Molten_0
+  - first:
+      213: 7213937820186533244
+    second: Molten_1
+  - first:
+      213: -5747464930922417860
+    second: Molten_2
+  - first:
+      213: -2773615689270563657
+    second: Molten_3
+  - first:
+      213: 9102948846961337665
+    second: Molten_4
+  - first:
+      213: 1268268096094903711
+    second: Molten_5
+  - first:
+      213: -4227882461036584532
+    second: Molten_6
+  - first:
+      213: 5280025844203411785
+    second: Molten_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +134,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sun_0
+      name: Molten_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256
-        height: 256
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,74 +149,162 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 52361b48bb67c4970800000000000000
-      internalID: 8740491524576469797
+      spriteID: 6a604b05ed2644fe0800000000000000
+      internalID: -1205730093252213082
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sun_1
+      name: Molten_1
       rect:
         serializedVersion: 2
-        x: 256
+        x: 32
         y: 0
-        width: 256
-        height: 256
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: d2978ef054632a04fb0a30fecf345edb
-      internalID: 509976123
+      spriteID: c7d59f3f93e0d1460800000000000000
+      internalID: 7213937820186533244
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sun_2
+      name: Molten_2
       rect:
         serializedVersion: 2
-        x: 512
+        x: 64
         y: 0
-        width: 256
-        height: 256
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: f1ab18f03dc149a41b195373f66d5bea
-      internalID: 860005202
+      spriteID: c31ba51c817ec30b0800000000000000
+      internalID: -5747464930922417860
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sun_3
+      name: Molten_3
       rect:
         serializedVersion: 2
-        x: 768
+        x: 96
         y: 0
-        width: 256
-        height: 256
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 76c4b059497d54b40b3d9c71ff2d1943
-      internalID: -118081208
+      spriteID: 7bce391d9332289d0800000000000000
+      internalID: -2773615689270563657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Molten_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 145aeaf2fbb245e70800000000000000
+      internalID: 9102948846961337665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Molten_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9d92b32d1bc99110800000000000000
+      internalID: 1268268096094903711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Molten_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca16fcd4d4b8355c0800000000000000
+      internalID: -4227882461036584532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Molten_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94950a0d78b664940800000000000000
+      internalID: 5280025844203411785
       vertices: []
       indices: 
       edges: []
@@ -204,7 +313,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 93a8fdf534a37f24fa7fb2a6c5392711
     internalID: 0
     vertices: []
     indices: 
@@ -214,12 +323,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":256.0,"y":256.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":8.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Sun_0: 8740491524576469797
-      Sun_1: 509976123
-      Sun_2: 860005202
-      Sun_3: -118081208
+      Molten_0: -1205730093252213082
+      Molten_1: 7213937820186533244
+      Molten_2: -5747464930922417860
+      Molten_3: -2773615689270563657
+      Molten_4: 9102948846961337665
+      Molten_5: 1268268096094903711
+      Molten_6: -4227882461036584532
+      Molten_7: 5280025844203411785
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

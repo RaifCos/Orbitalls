@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 0f055ec962eb8a34293a767865333aa5
+guid: 032d66f5466df33408c9130149bdeeac
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8740491524576469797
-    second: Sun_0
+      213: -1667632784159863877
+    second: EarthToxic_0
+  - first:
+      213: 2651263922635355653
+    second: EarthToxic_1
+  - first:
+      213: 1126596259373131494
+    second: EarthToxic_2
+  - first:
+      213: 7029121722771624128
+    second: EarthToxic_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sun_0
+      name: EarthToxic_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256
-        height: 256
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,74 +137,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 52361b48bb67c4970800000000000000
-      internalID: 8740491524576469797
+      spriteID: bbb0b5c71d06bd8e0800000000000000
+      internalID: -1667632784159863877
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sun_1
+      name: EarthToxic_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5063d7a9d7e2bc420800000000000000
+      internalID: 2651263922635355653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EarthToxic_2
       rect:
         serializedVersion: 2
         x: 256
         y: 0
-        width: 256
-        height: 256
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: d2978ef054632a04fb0a30fecf345edb
-      internalID: 509976123
+      spriteID: 6e62835345972af00800000000000000
+      internalID: 1126596259373131494
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sun_2
+      name: EarthToxic_3
       rect:
         serializedVersion: 2
-        x: 512
+        x: 384
         y: 0
-        width: 256
-        height: 256
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: f1ab18f03dc149a41b195373f66d5bea
-      internalID: 860005202
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sun_3
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 76c4b059497d54b40b3d9c71ff2d1943
-      internalID: -118081208
+      spriteID: 0c0d8c807f47c8160800000000000000
+      internalID: 7029121722771624128
       vertices: []
       indices: 
       edges: []
@@ -204,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 52aaa29fa70ee2b4b978e01dd24ea6b0
     internalID: 0
     vertices: []
     indices: 
@@ -214,12 +223,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":256.0,"y":256.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":128.0,"y":128.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Sun_0: 8740491524576469797
-      Sun_1: 509976123
-      Sun_2: 860005202
-      Sun_3: -118081208
+      EarthToxic_0: -1667632784159863877
+      EarthToxic_1: 2651263922635355653
+      EarthToxic_2: 1126596259373131494
+      EarthToxic_3: 7029121722771624128
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
