@@ -64,18 +64,20 @@ public class GameElement : MonoBehaviour {
         } else {
             missFrameCount++;
             if (missFrameCount >= MissFrameThreshold && currentHit != null) {
-                ElementExited(currentHit);
+                ElementExit(currentHit);
                 currentHit = null;
                 missFrameCount = 0;
             }
         }
     }
 
-    private void ElementExited(GamePlanet target) {
-        Debug.Log($"Element {element.internalName} left planet {target.name}");
-    }
-
     private void ElementHit(GamePlanet target) {
         Debug.Log($"Element {element.internalName} hit planet {target.name}");
+        target.UpdatePlanetTraits(element.heatEffect, element.humidityEffect, element.atmosphereEffect);
+    }
+
+        private void ElementExit(GamePlanet target) {
+        Debug.Log($"Element {element.internalName} left planet {target.name}");
+        target.UpdatePlanetTraits(-element.heatEffect, -element.humidityEffect, -element.atmosphereEffect);
     }
 }

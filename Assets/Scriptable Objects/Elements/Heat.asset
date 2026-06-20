@@ -16,3 +16,6 @@ MonoBehaviour:
   externalName: Solar Rays
   description: 
   sprite: {fileID: 21300000, guid: a24693a31c3be674cb08785f7248a39d, type: 3}
+  heatEffect: 1
+  humidityEffect: 0
+  atmosphereEffect: 0
