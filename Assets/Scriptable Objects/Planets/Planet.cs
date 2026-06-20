@@ -7,7 +7,7 @@ public class Planet : ScriptableObject {
     public string externalName;
     [TextArea(3, 6)]
     public string description;
-    public Sprite sprite;
+    public Sprite[] sprites;
 
     [Header("Planet Traits")]
     public int heat;

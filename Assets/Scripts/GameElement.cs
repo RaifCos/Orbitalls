@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(SpriteAnimation))]
 public class GameElement : MonoBehaviour {
 
     private Element element;
@@ -27,11 +28,11 @@ public class GameElement : MonoBehaviour {
         transform.localScale    = Vector3.one;
         transform.localPosition = new Vector3(0f, parentRadius + height * 0.5f, 0f);
 
-        // Set Element Sprite
+        // Set Element Sprites
         var sr = GetComponent<SpriteRenderer>();
-        sr.sprite   = element.sprite;
         sr.drawMode = SpriteDrawMode.Sliced;
         sr.size = new Vector2(width, height);
+        GetComponent<SpriteAnimation>().UpdateSpriteList(element.sprites);
 
         // Set Collider
         var col = GetComponent<BoxCollider2D>();

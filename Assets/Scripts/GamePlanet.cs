@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 [RequireComponent(typeof(SpriteRenderer))]
+
+[RequireComponent(typeof(SpriteAnimation))]
 public class GamePlanet : MonoBehaviour {
 
     [SerializeField] private Planet planetType;
@@ -57,7 +58,7 @@ public class GamePlanet : MonoBehaviour {
 
     private void UpdatePlanetVisuals() {
         gameObject.name = currentPlanet.externalName;
-        GetComponent<SpriteRenderer>().sprite = currentPlanet.sprite;
+        GetComponent<SpriteAnimation>().UpdateSpriteList(currentPlanet.sprites);
 
         // Error Fallbacks
         if (currentPlanet.element == null) return;
