@@ -1,28 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class GamePlanet : MonoBehaviour {
 
     [SerializeField] private Planet planetType;
     private Planet currentPlanet;
-    private int heat;
-    private int humidity;
-    private int atmosphere;
 
     [Header("Element Properties")]
     private GameElement gameElement;
-    [SerializeField] private int outputReach;
+    [SerializeField] private int elementRange;
 
     [Header("Orbit Properties")]
     [SerializeField] private GameObject levelSun;
-    [SerializeField] private GamePlanet parentPlanet;
+    [SerializeField] private GameObject parentPlanet;
     [SerializeField] private float orbitRadius;
     private float orbitAngle;
-
-    [Header("Sunlight Properties")]
-    [SerializeField] private LayerMask planetLayer;
-    private bool isInSunlight;
-
     public bool OrbitsPlanet => parentPlanet != null;
+
+    [Header("Influence Properties")]
+    private readonly Dictionary<object, (int heat, int humidity, int atmosphere)> activeInfluences = new();
+    private int baseHeat;
+    private int baseHumidity;
+    private int baseAtmosphere;
 
     void Awake() => ResetPlanet();
 
@@ -31,70 +31,50 @@ public class GamePlanet : MonoBehaviour {
 
         Vector2 parentPos = parentPlanet.transform.position;
         float rad = orbitAngle * Mathf.Deg2Rad;
-
-        transform.position = new Vector2 (
+        transform.position = new Vector2(
             parentPos.x + orbitRadius * Mathf.Cos(rad),
             parentPos.y + orbitRadius * Mathf.Sin(rad)
         );
     }
 
-    private void FixedUpdate() {
-        if (levelSun == null) return;
-        CheckSunlight();
+    public void AddInfluence(object source, int heat, int humidity, int atmosphere) {
+        activeInfluences[source] = (heat, humidity, atmosphere);
+        RecalculateTraits();
     }
 
-    private void CheckSunlight() {
-        Vector2 origin = transform.position;
-        Vector2 target = levelSun.transform.position;
-        Vector2 direction = (target - origin).normalized;
-        float distance = Vector2.Distance(origin, target);
+    public void RemoveInfluence(object source) { if (activeInfluences.Remove(source)) { RecalculateTraits(); } }
 
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, distance, planetLayer);
-
-        if (hit.collider != null && hit.collider.gameObject == gameObject) { hit = default; }
-
-        bool wasInSunlight = isInSunlight;
-        isInSunlight = hit.collider == null;
-
-        Debug.DrawLine(origin, target, isInSunlight ? Color.yellow : Color.red);
-
-        if (isInSunlight == wasInSunlight) return;
-
-        if (isInSunlight) {
-            Debug.Log($"{gameObject.name} entered sunlight, heat +1");
-            UpdatePlanetTraits(1, 0, 0);
-        } else {
-            Debug.Log($"{gameObject.name} blocked by {hit.collider.gameObject.name}, heat -1");
-            UpdatePlanetTraits(-1, 0, 0);
-        }
+    private void RecalculateTraits() {
+        Debug.Log($"{gameObject.name}: recalculating traits with {activeInfluences.Count} active influences.");
+        int heat = baseHeat, humidity = baseHumidity, atmosphere = baseAtmosphere;
+        foreach (var inf in activeInfluences.Values) {
+            heat       += inf.heat;
+            humidity   += inf.humidity;
+            atmosphere += inf.atmosphere;
+        } currentPlanet = GameManager.dataManager.UpdatePlanetState(heat, humidity, atmosphere);
+        UpdatePlanetVisuals();
     }
 
-    private void UpdatePlanet() {
+    private void UpdatePlanetVisuals() {
         gameObject.name = currentPlanet.externalName;
-        gameObject.GetComponent<SpriteRenderer>().sprite = currentPlanet.sprite;
+        GetComponent<SpriteRenderer>().sprite = currentPlanet.sprite;
 
-        if (currentPlanet.element != null) {
-            GameObject elementGO = transform.GetChild(0).gameObject;
-            gameElement = elementGO.GetComponent<GameElement>();
-            gameElement.SetElement(currentPlanet.element, outputReach);
-        }
-    }
-
-    public void UpdatePlanetTraits(int heatChange, int humidityChange, int atmosphereChange) {
-        heat += heatChange;
-        humidity += humidityChange;
-        atmosphere += atmosphereChange;
-        currentPlanet = GameManager.dataManager.UpdatePlanetState(heat, humidity, atmosphere);
-        Debug.Log($"Planet {gameObject.name} updated to {currentPlanet.externalName} with traits: Heat={heat}, Humidity={humidity}, Atmosphere={atmosphere}");
-        UpdatePlanet();
+        // Error Fallbacks
+        if (currentPlanet.element == null) return;
+        if (transform.childCount == 0) return;
+        GameObject elementGO = transform.GetChild(0).gameObject;
+        if (!elementGO.TryGetComponent(out gameElement)) return;
+    
+        gameElement.SetElement(currentPlanet.element, elementRange);
     }
 
     public void ResetPlanet() {
-        currentPlanet = planetType;
-        heat = currentPlanet.heat;
-        humidity = currentPlanet.humidity;
-        atmosphere = currentPlanet.atmosphere;
-        UpdatePlanet();
+        activeInfluences.Clear();
+        currentPlanet  = planetType;
+        baseHeat       = currentPlanet.heat;
+        baseHumidity   = currentPlanet.humidity;
+        baseAtmosphere = currentPlanet.atmosphere;
+        UpdatePlanetVisuals();
     }
 
     public void ApplySpin(float degrees) => transform.Rotate(Vector3.forward, degrees);
