@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1cbd12ae7f28a34c84b239b63cd6058, type: 3}
   m_Name: Frost
   m_EditorClassIdentifier: Assembly-CSharp::Element
-  internalName: 
-  externalName: 
+  internalName: frost
+  externalName: Frost
   description: 
-  sprite: {fileID: 0}
-  heatEffect: 0
+  sprite: {fileID: 21300000, guid: a24693a31c3be674cb08785f7248a39d, type: 3}
+  heatEffect: -1
   humidityEffect: 0
   atmosphereEffect: 0

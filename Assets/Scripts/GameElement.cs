@@ -9,11 +9,10 @@ public class GameElement : MonoBehaviour {
     private int missFrameCount = 0;
     private const int MissFrameThreshold = 20;
 
-    void Start() => planetLayer = LayerMask.GetMask("Planet");
-
     public void SetElement(Element e, int r) {
         element = e;
         reach = r;
+        planetLayer = LayerMask.GetMask("Planet");
         gameObject.name = element.internalName;
         gameObject.GetComponent<SpriteRenderer>().sprite = element.sprite;
         AlignVisualToRay();
@@ -25,6 +24,8 @@ public class GameElement : MonoBehaviour {
         transform.localScale = new Vector3(1f, adjustedReach, 1f);
         transform.localPosition = new Vector3(0f, parentRadius + adjustedReach * 0.5f, 0f);
     }
+
+    private void Update() { Detect(); }
 
     public void Detect() {
         Vector2 origin = transform.parent.position;
