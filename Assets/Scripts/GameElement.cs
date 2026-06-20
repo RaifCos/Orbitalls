@@ -29,10 +29,10 @@ public class GameElement : MonoBehaviour {
         transform.localPosition = new Vector3(0f, parentRadius + height * 0.5f, 0f);
 
         // Set Element Sprites
+        GetComponent<SpriteAnimation>().UpdateSpriteList(element.sprites);
         var sr = GetComponent<SpriteRenderer>();
         sr.drawMode = SpriteDrawMode.Sliced;
         sr.size = new Vector2(width, height);
-        GetComponent<SpriteAnimation>().UpdateSpriteList(element.sprites);
 
         // Set Collider
         var col = GetComponent<BoxCollider2D>();
