@@ -34,16 +34,23 @@ public class GameElement : MonoBehaviour {
         Vector2 offsetOrigin = origin + rayDir * parentRadius;
         float adjustedReach = reach - parentRadius;
 
-        Vector2 boxSize = new(1f, 0.1f);
-        RaycastHit2D hit = Physics2D.BoxCast(offsetOrigin, boxSize, transform.parent.eulerAngles.z, rayDir, adjustedReach, planetLayer);
-        
-        Vector2 perpendicular = new(-rayDir.y * 0.5f, rayDir.x * 0.5f); // half-width offset
-        Vector2 endPoint = offsetOrigin + rayDir * adjustedReach;
-        Debug.DrawLine(offsetOrigin - perpendicular, endPoint - perpendicular, hit.collider != null ? Color.red : Color.green);
-        Debug.DrawLine(offsetOrigin + perpendicular, endPoint + perpendicular, hit.collider != null ? Color.red : Color.green);
+        Vector2 perpendicular = new(-rayDir.y, rayDir.x);
+        Vector2 left  = offsetOrigin - perpendicular * 0.4f;
+        Vector2 right = offsetOrigin + perpendicular * 0.4f;
+
+        RaycastHit2D hitCenter = Physics2D.Raycast(offsetOrigin, rayDir, adjustedReach, planetLayer);
+        RaycastHit2D hitLeft   = Physics2D.Raycast(left,         rayDir, adjustedReach, planetLayer);
+        RaycastHit2D hitRight  = Physics2D.Raycast(right,        rayDir, adjustedReach, planetLayer);
+
+        Debug.DrawRay(left,         rayDir * adjustedReach, hitLeft.collider   != null ? Color.red : Color.green);
+        Debug.DrawRay(offsetOrigin, rayDir * adjustedReach, hitCenter.collider != null ? Color.red : Color.green);
+        Debug.DrawRay(right,        rayDir * adjustedReach, hitRight.collider  != null ? Color.red : Color.green);
+
+        RaycastHit2D hit = hitCenter.collider != null ? hitCenter
+                        : hitLeft.collider   != null ? hitLeft
+                        : hitRight;
 
         GamePlanet hitPlanet = null;
-
         if (hit.collider != null
             && hit.collider.gameObject != transform.parent.gameObject
             && hit.collider.TryGetComponent<GamePlanet>(out var found)) {
@@ -51,7 +58,7 @@ public class GameElement : MonoBehaviour {
         }
 
         if (hitPlanet != null) {
-            missFrameCount = 0; // reset miss counter whenever we hit something
+            missFrameCount = 0;
             if (hitPlanet != currentHit) {
                 ElementHit(hitPlanet);
                 currentHit = hitPlanet;
