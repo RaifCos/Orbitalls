@@ -34,8 +34,14 @@ public class GameElement : MonoBehaviour {
         Vector2 offsetOrigin = origin + rayDir * parentRadius;
         float adjustedReach = reach - parentRadius;
 
-        RaycastHit2D hit = Physics2D.Raycast(offsetOrigin, rayDir, adjustedReach, planetLayer);
-        Debug.DrawRay(offsetOrigin, rayDir * adjustedReach, hit.collider != null ? Color.red : Color.green);
+        Vector2 boxSize = new(1f, 0.1f);
+        RaycastHit2D hit = Physics2D.BoxCast(offsetOrigin, boxSize, transform.parent.eulerAngles.z, rayDir, adjustedReach, planetLayer);
+        
+        Vector2 perpendicular = new(-rayDir.y * 0.5f, rayDir.x * 0.5f); // half-width offset
+        Vector2 endPoint = offsetOrigin + rayDir * adjustedReach;
+        Debug.DrawLine(offsetOrigin - perpendicular, endPoint - perpendicular, hit.collider != null ? Color.red : Color.green);
+        Debug.DrawLine(offsetOrigin + perpendicular, endPoint + perpendicular, hit.collider != null ? Color.red : Color.green);
+
         GamePlanet hitPlanet = null;
 
         if (hit.collider != null

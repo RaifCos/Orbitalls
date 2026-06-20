@@ -15,5 +15,4 @@ MonoBehaviour:
   internalName: heat
   externalName: Solar Rays
   description: 
-  raySprite: {fileID: 21300000, guid: a24693a31c3be674cb08785f7248a39d, type: 3}
-  radialSprite: {fileID: 21300000, guid: a24693a31c3be674cb08785f7248a39d, type: 3}
+  sprite: {fileID: 21300000, guid: a24693a31c3be674cb08785f7248a39d, type: 3}
