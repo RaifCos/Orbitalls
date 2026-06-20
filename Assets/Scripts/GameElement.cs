@@ -1,107 +1,89 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+[RequireComponent(typeof(Collider2D))]
 
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class GameElement : MonoBehaviour {
 
-    private int direction;
-    private int reach;
     private Element element;
+    private int reach;
+    private LayerMask planetMask;
+    private readonly HashSet<GamePlanet> candidates = new();    // Possible Targets (need to confirm view)
+    private readonly HashSet<GamePlanet> activeTargets = new(); // Confirmed Targets (have clear view)
 
-    [Header("Raycast Detection")]
-    private GamePlanet currenRaytHit;
-    private List<GamePlanet> currentRadialHits = new();
+    private void FixedUpdate() { foreach (var planet in candidates) { ValidateView(planet); } }
 
-
-    public void SetElement(Element e, int d, int r) {
+    public void SetElement(Element e, int r) {
         element = e;
-        direction = d;
         reach = r;
+        planetMask = LayerMask.GetMask("Planet");
         gameObject.name = element.internalName;
 
-        switch (direction) {
-            case 1:
-                gameObject.GetComponent<SpriteRenderer>().sprite = element.raySprite;
-                transform.localScale = new Vector3(1f, reach, 1f);
-                break;
-            case 2:
-                gameObject.GetComponent<SpriteRenderer>().sprite = element.radialSprite;
-                transform.localScale = new Vector3(reach * 2f, reach * 2f, 1f);
-                break;
-            default:
-                transform.localScale = Vector3.one;
-                break;
-        }
-    }
-
-    public void Detect() {
-        int planetLayer = LayerMask.GetMask("Planet");
-        switch (direction) {
-            case 1:
-                RayDetect(planetLayer);
-                break;
-            case 2:
-                RadialDetect(planetLayer);
-                break;
-        }
-    }
-
-    
-    private void RayDetect(int planetLayer) {
-        Vector2 origin = transform.parent.position;
-        Vector2 rayDir = transform.parent.up;
-
+        // Set Elememt Transform
         float parentRadius = transform.parent.GetComponent<CircleCollider2D>().radius;
-        Vector2 offsetOrigin = origin + rayDir * parentRadius;
-        float adjustedReach = reach - parentRadius;
+        float height = reach - parentRadius;
+        float width = 0.8f;
+        transform.localScale    = Vector3.one;
+        transform.localPosition = new Vector3(0f, parentRadius + height * 0.5f, 0f);
 
-        RaycastHit2D hit = Physics2D.Raycast(offsetOrigin, rayDir, adjustedReach, planetLayer);
-        GamePlanet hitPlanet = null;
+        // Set Element Sprite
+        var sr = GetComponent<SpriteRenderer>();
+        sr.sprite   = element.sprite;
+        sr.drawMode = SpriteDrawMode.Sliced;
+        sr.size = new Vector2(width, height);
 
-        if (hit.collider != null
-            && hit.collider.gameObject != transform.parent.gameObject
-            && hit.collider.TryGetComponent<GamePlanet>(out var found)) {
-            hitPlanet = found;
-        }
-
-        if (hitPlanet != null && hitPlanet != currenRaytHit) ElementHit(hitPlanet);
-
-        currenRaytHit = hitPlanet;
+        // Set Collider
+        var col = GetComponent<BoxCollider2D>();
+        col.isTrigger = true;
+        col.offset = Vector2.zero;
+        col.size = new Vector2(width, height);
     }
 
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject == transform.parent.gameObject) return; 
+        if (other.TryGetComponent<GamePlanet>(out var planet)) { candidates.Add(planet); }
+    }
 
-    private void RadialDetect(int planetLayer) {
+    private void OnTriggerExit2D(Collider2D other) {
+        if (other.TryGetComponent<GamePlanet>(out var planet)) {
+            candidates.Remove(planet);
+            SetActive(planet, false);
+        }
+    }
+
+    private void ValidateView(GamePlanet planet) {
         Vector2 origin = transform.parent.position;
-        float parentRadius = transform.parent.GetComponent<CircleCollider2D>().radius;
+        Vector2 target = planet.transform.position;
+        Vector2 dir = (target - origin).normalized;
+        float dist = Vector2.Distance(origin, target);
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(origin, reach, planetLayer);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, dist, planetMask);
 
-        List<GamePlanet> frameHits = new();
-        foreach (var collider in colliders) {
-            if (collider.gameObject == transform.parent.gameObject) continue;
-            if (!collider.TryGetComponent<GamePlanet>(out var hitPlanet)) continue;
-
-            Vector2 targetPos = collider.transform.position;
-            Vector2 toTarget = targetPos - origin;
-            Vector2 dir = toTarget.normalized;
-            float distance = toTarget.magnitude;
-
-            Vector2 offsetOrigin = origin + dir * parentRadius;
-            float adjustedDistance = distance - parentRadius;
-
-            RaycastHit2D hit = Physics2D.Raycast(offsetOrigin, dir, adjustedDistance, planetLayer);
-
-            if (hit.collider != null && hit.collider.gameObject == collider.gameObject) frameHits.Add(hitPlanet);
-        }
-
-        foreach (var planet in frameHits) {
-            if (!currentRadialHits.Contains(planet)) ElementHit(planet);
-        }
-
-        currentRadialHits = frameHits;
+        bool blocked = false;
+        foreach (var hit in hits) {
+            if (hit.collider.gameObject == transform.parent.gameObject) continue;
+            if (hit.collider.gameObject == planet.gameObject)           continue;
+            blocked = true;
+            break;
+        } SetActive(planet, !blocked);
     }
 
-    private void ElementHit(GamePlanet target) {
-        Debug.Log($"Element {element.internalName} hit planet {target.name}");
-        //TODO: Add Logic for when an element hits a planet (planet state should change)
+    private void SetActive(GamePlanet planet, bool active) {
+        bool wasActive = activeTargets.Contains(planet);
+        if (active == wasActive) return;
+        if (active) {
+            activeTargets.Add(planet);
+            planet.AddInfluence(this, element.heatEffect, element.humidityEffect, element.atmosphereEffect);
+        } else {
+            activeTargets.Remove(planet);
+            planet.RemoveInfluence(this);
+        }
+    }
+
+    private void OnDisable() {
+        foreach (var planet in activeTargets) { planet.RemoveInfluence(this); }
+        activeTargets.Clear();
+        candidates.Clear();
     }
 }

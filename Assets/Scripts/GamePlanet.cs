@@ -1,47 +1,80 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class GamePlanet : MonoBehaviour {
 
     [SerializeField] private Planet planetType;
-    [SerializeField] private int outputReach;
+    private Planet currentPlanet;
+
+    [Header("Element Properties")]
+    private GameElement gameElement;
+    [SerializeField] private int elementRange;
 
     [Header("Orbit Properties")]
-    [SerializeField] private GamePlanet parentPlanet;
+    [SerializeField] private GameObject levelSun;
+    [SerializeField] private GameObject parentPlanet;
     [SerializeField] private float orbitRadius;
     private float orbitAngle;
-
-    private GameElement gameElement;
-
     public bool OrbitsPlanet => parentPlanet != null;
 
-    void Awake() {
-        gameObject.name = planetType.externalName;
-        gameObject.GetComponent<SpriteRenderer>().sprite = planetType.sprite;
-        gameObject.GetComponent<CircleCollider2D>().radius = planetType.radius;
-        
-        GameObject elementGO = transform.GetChild(0).gameObject;
-        if (planetType.elementType != null) {
-            if (planetType.outputDirection == 1) { elementGO.transform.localPosition = new Vector3(0f, 2f * planetType.radius, 0f); }
-            gameElement = elementGO.GetComponent<GameElement>();
-            gameElement.SetElement(planetType.elementType, planetType.outputDirection, outputReach);
-        } else elementGO.SetActive(false);
-    }
+    [Header("Influence Properties")]
+    private readonly Dictionary<object, (int heat, int humidity, int atmosphere)> activeInfluences = new();
+    private int baseHeat;
+    private int baseHumidity;
+    private int baseAtmosphere;
+
+    void Awake() => ResetPlanet();
 
     private void Update() {
         if (!OrbitsPlanet) return;
 
         Vector2 parentPos = parentPlanet.transform.position;
         float rad = orbitAngle * Mathf.Deg2Rad;
-
-        transform.position = new Vector2 (
+        transform.position = new Vector2(
             parentPos.x + orbitRadius * Mathf.Cos(rad),
             parentPos.y + orbitRadius * Mathf.Sin(rad)
         );
     }
 
-    private void LateUpdate() {
-        if (gameElement == null) return;
-        gameElement.Detect();
+    public void AddInfluence(object source, int heat, int humidity, int atmosphere) {
+        activeInfluences[source] = (heat, humidity, atmosphere);
+        RecalculateTraits();
+    }
+
+    public void RemoveInfluence(object source) { if (activeInfluences.Remove(source)) { RecalculateTraits(); } }
+
+    private void RecalculateTraits() {
+        Debug.Log($"{gameObject.name}: recalculating traits with {activeInfluences.Count} active influences.");
+        int heat = baseHeat, humidity = baseHumidity, atmosphere = baseAtmosphere;
+        foreach (var inf in activeInfluences.Values) {
+            heat       += inf.heat;
+            humidity   += inf.humidity;
+            atmosphere += inf.atmosphere;
+        } currentPlanet = GameManager.dataManager.UpdatePlanetState(heat, humidity, atmosphere);
+        UpdatePlanetVisuals();
+    }
+
+    private void UpdatePlanetVisuals() {
+        gameObject.name = currentPlanet.externalName;
+        GetComponent<SpriteRenderer>().sprite = currentPlanet.sprite;
+
+        // Error Fallbacks
+        if (currentPlanet.element == null) return;
+        if (transform.childCount == 0) return;
+        GameObject elementGO = transform.GetChild(0).gameObject;
+        if (!elementGO.TryGetComponent(out gameElement)) return;
+    
+        gameElement.SetElement(currentPlanet.element, elementRange);
+    }
+
+    public void ResetPlanet() {
+        activeInfluences.Clear();
+        currentPlanet  = planetType;
+        baseHeat       = currentPlanet.heat;
+        baseHumidity   = currentPlanet.humidity;
+        baseAtmosphere = currentPlanet.atmosphere;
+        UpdatePlanetVisuals();
     }
 
     public void ApplySpin(float degrees) => transform.Rotate(Vector3.forward, degrees);

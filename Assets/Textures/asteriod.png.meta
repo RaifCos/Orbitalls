@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a24693a31c3be674cb08785f7248a39d
+guid: 23364587d0a6e534c80b86888d01fffa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 346553322923362620
-    second: heatRadial_0
+      213: 7511240651082421016
+    second: asteriod_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: heatRadial_0
+      name: asteriod_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 128
-        height: 128
+        x: 11
+        y: 11
+        width: 106
+        height: 106
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c39049c39643fc400800000000000000
-      internalID: 346553322923362620
+      spriteID: 813dd3e63994d3860800000000000000
+      internalID: 7511240651082421016
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      heatRadial_0: 346553322923362620
+      asteriod_0: 7511240651082421016
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
