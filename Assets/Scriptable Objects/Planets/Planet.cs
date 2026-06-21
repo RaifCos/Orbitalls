@@ -7,7 +7,9 @@ public class Planet : ScriptableObject {
     public string externalName;
     [TextArea(3, 6)]
     public string description;
+    [Header("Animation")]
     public Sprite[] sprites;
+    public int animationSpeed = 48;
 
     [Header("Planet Traits")]
     public int heat;

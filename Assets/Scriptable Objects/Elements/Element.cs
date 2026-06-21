@@ -7,7 +7,12 @@ public class Element : ScriptableObject {
     public string externalName;
     [TextArea(3, 6)]
     public string description;
+
+    [Header("Animations")]
     public Sprite[] sprites;
+    public int animationSpeed = 48;
+
+    [Header("Emissions and Abilites")]
     public int heatEffect;
     public int humidityEffect;
     public int atmosphereEffect;

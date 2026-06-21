@@ -17,7 +17,9 @@ MonoBehaviour:
   description: 
   sprites:
   - {fileID: 21300000, guid: cf7c522d5fe2eb54cb49d639e88e2d20, type: 3}
+  animationSpeed: 48
   heat: 1
   humidity: -1
   atmosphere: -1
+  changesState: 1
   element: {fileID: 0}

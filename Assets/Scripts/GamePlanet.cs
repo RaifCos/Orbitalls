@@ -60,7 +60,7 @@ public class GamePlanet : MonoBehaviour {
 
     private void UpdatePlanetVisuals() {
         gameObject.name = currentPlanet.externalName;
-        GetComponent<SpriteAnimation>().UpdateSpriteList(currentPlanet.sprites);
+        GetComponent<SpriteAnimation>().UpdateSpriteList(currentPlanet.sprites, currentPlanet.animationSpeed);
 
         // Error Fallbacks
         if (currentPlanet.element == null) return;

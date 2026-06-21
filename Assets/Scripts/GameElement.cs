@@ -37,7 +37,7 @@ public class GameElement : MonoBehaviour {
         transform.localScale    = Vector3.one;
         transform.localPosition = new Vector3(0f, parentRadius + fullHeight * 0.5f, 0f);
 
-        GetComponent<SpriteAnimation>().UpdateSpriteList(element.sprites);
+        GetComponent<SpriteAnimation>().UpdateSpriteList(element.sprites, element.animationSpeed);
 
         sr = GetComponent<SpriteRenderer>();
         sr.drawMode = SpriteDrawMode.Tiled;

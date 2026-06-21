@@ -20,7 +20,9 @@ MonoBehaviour:
   - {fileID: 2651263922635355653, guid: 032d66f5466df33408c9130149bdeeac, type: 3}
   - {fileID: 1126596259373131494, guid: 032d66f5466df33408c9130149bdeeac, type: 3}
   - {fileID: 7029121722771624128, guid: 032d66f5466df33408c9130149bdeeac, type: 3}
+  animationSpeed: 48
   heat: 0
   humidity: 0
   atmosphere: 1
+  changesState: 1
   element: {fileID: 0}

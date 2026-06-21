@@ -18,6 +18,7 @@ MonoBehaviour:
   sprites:
   - {fileID: 8605956544606621573, guid: 64020cb67d062744ba9ef0b877a88865, type: 3}
   - {fileID: 1051866052, guid: 64020cb67d062744ba9ef0b877a88865, type: 3}
+  animationSpeed: 48
   heatEffect: 0
   humidityEffect: 0
   atmosphereEffect: -1
