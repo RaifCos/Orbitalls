@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ecbe430601ce9d4db3057de01cd107f, type: 3}
+  m_Name: Radioactive
+  m_EditorClassIdentifier: Assembly-CSharp::Planet
+  internalName: radioactive
+  externalName: Radioactive
+  description: 
+  sprites:
+  - {fileID: -8734128608386658178, guid: 52274afa98acce143b35dae0e0dc9610, type: 3}
+  - {fileID: -1623703568, guid: 52274afa98acce143b35dae0e0dc9610, type: 3}
+  - {fileID: -1806773064, guid: 52274afa98acce143b35dae0e0dc9610, type: 3}
+  - {fileID: -369541638, guid: 52274afa98acce143b35dae0e0dc9610, type: 3}
+  - {fileID: 1221669346, guid: 52274afa98acce143b35dae0e0dc9610, type: 3}
+  - {fileID: 1270112023, guid: 52274afa98acce143b35dae0e0dc9610, type: 3}
+  heat: 1
+  humidity: 0
+  atmosphere: -1
+  element: {fileID: 0}

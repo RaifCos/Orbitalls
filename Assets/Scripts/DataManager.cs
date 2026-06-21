@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour {
 
+    [SerializeField] private Planet asteroid;
     [SerializeField] private Planet[] planets;
 
     private void Awake() => GameManager.dataManager = this;
@@ -15,6 +16,6 @@ public class DataManager : MonoBehaviour {
 
             // Transform the planet into a new type based on its traits.
             if (planet.heat == cHe && planet.humidity == cHu && planet.atmosphere == cA) { return planet; }
-        } return planets[0]; // Return Asteroid as a default. 
+        } return asteroid; // Return Asteroid as a default. 
     }
 }
