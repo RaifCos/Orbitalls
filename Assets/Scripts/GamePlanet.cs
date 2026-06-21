@@ -68,7 +68,7 @@ public class GamePlanet : MonoBehaviour {
         GameObject elementGO = transform.GetChild(0).gameObject;
         if (!elementGO.TryGetComponent(out gameElement)) return;
     
-        gameElement.SetElement(currentPlanet.element, elementRange);
+        gameElement.SetElement(currentPlanet.element, elementRange, currentPlanet.emissionWidth);
     }
 
     public void ResetPlanet() {
