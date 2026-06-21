@@ -25,7 +25,11 @@ public class GamePlanet : MonoBehaviour {
     private int baseHumidity;
     private int baseAtmosphere;
 
-    void Awake() => ResetPlanet();
+    void Awake() {
+        ResetPlanet();
+        InitOrbitIndicator();
+    }
+
 
     private void Update() {
         if (!OrbitsPlanet) return;
@@ -84,5 +88,15 @@ public class GamePlanet : MonoBehaviour {
     public void DriveOrbit(float speed, float deltaTime) {
         orbitAngle += speed * deltaTime;
         if (orbitAngle >= 360f) orbitAngle -= 360f;
+    }
+
+    private void InitOrbitIndicator() {
+        if (!OrbitsPlanet) return; 
+        OrbitIndicator indicator = GetComponentInChildren<OrbitIndicator>();
+        if (indicator == null) {
+            var go = new GameObject("OrbitIndicator");
+            go.transform.SetParent(transform);
+            indicator = go.AddComponent<OrbitIndicator>();
+        } indicator.Initialise(parentPlanet.transform, orbitRadius);
     }
 }
