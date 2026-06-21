@@ -20,4 +20,4 @@ MonoBehaviour:
   heat: -1
   humidity: -1
   atmosphere: 0
-  element: {fileID: 0}
+  element: {fileID: 11400000, guid: d874a05a284e36542bcab84958daf48d, type: 2}
