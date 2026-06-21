@@ -964,7 +964,6 @@ MonoBehaviour:
   elementRange: 5
   levelSun: {fileID: 8870396975888502721}
   parentPlanet: {fileID: 0}
-  startingOrbitAngle: 0
   orbitRadius: 0
 --- !u!4 &1389499137
 Transform:
@@ -1370,8 +1369,7 @@ MonoBehaviour:
   elementRange: 5
   levelSun: {fileID: 8870396975888502721}
   parentPlanet: {fileID: 1389499131}
-  startingOrbitAngle: 90
-  orbitRadius: 3
+  orbitRadius: -3
 --- !u!4 &2081095724
 Transform:
   m_ObjectHideFlags: 0

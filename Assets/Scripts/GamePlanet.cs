@@ -46,11 +46,12 @@ public class GamePlanet : MonoBehaviour {
     public void RemoveInfluence(object source) { if (activeInfluences.Remove(source)) { RecalculateTraits(); } }
 
     private void RecalculateTraits() {
+        if (planetType.changesState == false) { return; }
         Debug.Log($"{gameObject.name}: recalculating traits with {activeInfluences.Count} active influences.");
         int heat = baseHeat, humidity = baseHumidity, atmosphere = baseAtmosphere;
         foreach (var inf in activeInfluences.Values) {
-            heat       += inf.heat;
-            humidity   += inf.humidity;
+            heat += inf.heat;
+            humidity += inf.humidity;
             atmosphere += inf.atmosphere;
         } currentPlanet = GameManager.dataManager.UpdatePlanetState(heat, humidity, atmosphere);
         UpdatePlanetVisuals();
@@ -71,9 +72,9 @@ public class GamePlanet : MonoBehaviour {
 
     public void ResetPlanet() {
         activeInfluences.Clear();
-        currentPlanet  = planetType;
-        baseHeat       = currentPlanet.heat;
-        baseHumidity   = currentPlanet.humidity;
+        currentPlanet = planetType;
+        baseHeat = currentPlanet.heat;
+        baseHumidity = currentPlanet.humidity;
         baseAtmosphere = currentPlanet.atmosphere;
         UpdatePlanetVisuals();
     }
