@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -24,15 +25,15 @@ public class GameElement : MonoBehaviour {
         if (sr != null) UpdateVisualClip();
     }
 
-    public void SetElement(Element e, int r) {
+    public void SetElement(Element e, int r, float w) {
         element = e;
         reach = r;
         planetMask = LayerMask.GetMask("Planet");
         gameObject.name = element.internalName;
 
+        width = w;
         parentRadius = transform.parent.GetComponent<CircleCollider2D>().radius;
         fullHeight = reach - parentRadius;
-        width = 0.8f;
 
         transform.localScale    = Vector3.one;
         transform.localPosition = new Vector3(0f, parentRadius + fullHeight * 0.5f, 0f);

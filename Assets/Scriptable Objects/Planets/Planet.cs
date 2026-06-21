@@ -7,6 +7,7 @@ public class Planet : ScriptableObject {
     public string externalName;
     [TextArea(3, 6)]
     public string description;
+
     [Header("Animation")]
     public Sprite[] sprites;
     public int animationSpeed = 48;
@@ -19,4 +20,5 @@ public class Planet : ScriptableObject {
 
     [Header("Elemental Properties")]
     public Element element;
+    public float emissionWidth = 0.8f;
 }
