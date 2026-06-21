@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1cbd12ae7f28a34c84b239b63cd6058, type: 3}
+  m_Name: Moisture
+  m_EditorClassIdentifier: Assembly-CSharp::Element
+  internalName: moisture
+  externalName: Moisture
+  description: 
+  sprites:
+  - {fileID: -6070203339443938831, guid: 9d38c6a51afa7124d8626afca37570e0, type: 3}
+  - {fileID: 8088224431841955850, guid: 9d38c6a51afa7124d8626afca37570e0, type: 3}
+  - {fileID: 7955106060759046647, guid: 9d38c6a51afa7124d8626afca37570e0, type: 3}
+  - {fileID: -5884682682133655881, guid: 9d38c6a51afa7124d8626afca37570e0, type: 3}
+  heatEffect: 0
+  humidityEffect: 1
+  atmosphereEffect: 0

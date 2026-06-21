@@ -25,11 +25,9 @@ public class GamePlanet : MonoBehaviour {
     private int baseHumidity;
     private int baseAtmosphere;
 
-    void Awake() {
-        ResetPlanet();
-        InitOrbitIndicator();
-    }
+    void Awake() { ResetPlanet(); }
 
+    void Start() { InitOrbitIndicator(); }
 
     private void Update() {
         if (!OrbitsPlanet) return;
