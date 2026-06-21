@@ -51,7 +51,6 @@ public class GamePlanet : MonoBehaviour {
 
     private void RecalculateTraits() {
         if (planetType.changesState == false) { return; }
-        Debug.Log($"{gameObject.name}: recalculating traits with {activeInfluences.Count} active influences.");
         int heat = baseHeat, humidity = baseHumidity, atmosphere = baseAtmosphere;
         foreach (var inf in activeInfluences.Values) {
             heat += inf.heat;

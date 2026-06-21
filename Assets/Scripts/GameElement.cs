@@ -47,40 +47,28 @@ public class GameElement : MonoBehaviour {
         col.isTrigger = true;
         col.offset = Vector2.zero;
         col.size = new Vector2(width, fullHeight);
-
-        Debug.Log($"SR size: {sr.size}, Col size: {col.size}, Position: {transform.localPosition}");
     }
 
-    // Clips the sprite to stop at the nearest planet blocker (or closest active target surface)
     private void UpdateVisualClip() {
         Vector2 origin = transform.parent.position;
         Vector2 dir = ((Vector2)transform.position - (Vector2)transform.parent.position).normalized;
-        
-        // Find the nearest hit along the emission direction within reach
-        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, reach, planetMask);
 
-        float nearestStop = reach; // default: draw to full reach
+        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, reach, planetMask);
+        float nearestStop = reach;
 
         foreach (var hit in hits) {
             if (hit.collider.gameObject == transform.parent.gameObject) continue;
-
             float hitDist = hit.distance;
-
-            // If this planet is an active target, stop at its near surface
             if (hit.collider.TryGetComponent<GamePlanet>(out var gp) && activeTargets.Contains(gp)) {
                 nearestStop = Mathf.Min(nearestStop, hitDist);
-                break; // active target is our endpoint, no need to look further
+                break; 
             }
 
-            // Otherwise it's a blocker — clip just before it
             nearestStop = Mathf.Min(nearestStop, hitDist);
             break;
         }
 
-        // Convert world distance → local height (subtract parentRadius since sprite starts at surface)
         float clippedHeight = Mathf.Max(0f, nearestStop - parentRadius);
-
-        // Reposition sprite so its base stays at the planet surface
         transform.localPosition = new Vector3(0f, parentRadius + clippedHeight * 0.5f, 0f);
         sr.size = new Vector2(width, clippedHeight);
     }
@@ -108,11 +96,10 @@ public class GameElement : MonoBehaviour {
         bool blocked = false;
         foreach (var hit in hits) {
             if (hit.collider.gameObject == transform.parent.gameObject) continue;
-            if (hit.collider.gameObject == planet.gameObject)           continue;
+            if (hit.collider.gameObject == planet.gameObject) continue;
             blocked = true;
             break;
-        }
-        SetActive(planet, !blocked);
+        } SetActive(planet, !blocked);
     }
 
     private void SetActive(GamePlanet planet, bool active) {
