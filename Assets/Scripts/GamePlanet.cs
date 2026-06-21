@@ -6,7 +6,7 @@ using UnityEngine;
 public class GamePlanet : MonoBehaviour {
 
     [SerializeField] private Planet planetType;
-    private Planet currentPlanet;
+    private Planet currentPlanet, previousPlanet;
 
     [Header("Element Properties")]
     private GameElement gameElement;
@@ -59,20 +59,28 @@ public class GamePlanet : MonoBehaviour {
     }
 
     private void UpdatePlanetVisuals() {
-        gameObject.name = currentPlanet.externalName;
-        GetComponent<SpriteAnimation>().UpdateSpriteList(currentPlanet.sprites, currentPlanet.animationSpeed);
+    gameObject.name = currentPlanet.externalName;
+        if (currentPlanet != previousPlanet) {
+            GetComponent<SpriteAnimation>().UpdateSpriteList(currentPlanet.sprites, currentPlanet.animationSpeed);
+            previousPlanet = currentPlanet;
+        }
 
-        // Error Fallbacks
-        if (currentPlanet.element == null) return;
         if (transform.childCount == 0) return;
         GameObject elementGO = transform.GetChild(0).gameObject;
         if (!elementGO.TryGetComponent(out gameElement)) return;
-    
+
+        if (currentPlanet.element == null) {
+            gameElement.gameObject.SetActive(false);
+            return;
+        }
+
+        gameElement.gameObject.SetActive(true);
         gameElement.SetElement(currentPlanet.element, elementRange, currentPlanet.emissionWidth);
     }
 
     public void ResetPlanet() {
         activeInfluences.Clear();
+        previousPlanet = null;
         currentPlanet = planetType;
         baseHeat = currentPlanet.heat;
         baseHumidity = currentPlanet.humidity;

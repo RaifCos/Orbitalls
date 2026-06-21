@@ -26,3 +26,4 @@ MonoBehaviour:
   atmosphere: 1
   changesState: 1
   element: {fileID: 11400000, guid: e845c323967c82d4f831ccd6d26dcced, type: 2}
+  emissionWidth: 1
