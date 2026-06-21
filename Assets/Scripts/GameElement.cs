@@ -31,7 +31,7 @@ public class GameElement : MonoBehaviour {
         // Set Element Sprites
         GetComponent<SpriteAnimation>().UpdateSpriteList(element.sprites);
         var sr = GetComponent<SpriteRenderer>();
-        sr.drawMode = SpriteDrawMode.Sliced;
+        sr.drawMode = SpriteDrawMode.Tiled;
         sr.size = new Vector2(width, height);
 
         // Set Collider
@@ -39,6 +39,9 @@ public class GameElement : MonoBehaviour {
         col.isTrigger = true;
         col.offset = Vector2.zero;
         col.size = new Vector2(width, height);
+
+        // Verify after assignment — Unity sometimes clamps tiled size based on sprite settings
+        Debug.Log($"SR size: {sr.size}, Col size: {col.size}, Position: {transform.localPosition}");
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
