@@ -13,6 +13,7 @@ public class Planet : ScriptableObject {
     public int heat;
     public int humidity;
     public int atmosphere;
+    public bool changesState = true;
 
     [Header("Elemental Properties")]
     public Element element;
