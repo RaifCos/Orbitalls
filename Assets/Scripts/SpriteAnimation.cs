@@ -5,12 +5,14 @@ public class SpriteAnimation : MonoBehaviour {
 
     [SerializeField] private Sprite[] sprites;
     private SpriteRenderer spriteRenderer;
-    private SpriteRenderer sr => spriteRenderer ??= GetComponent<SpriteRenderer>();
 
     private int currentFrame, totalFrames, frameCount;
     private int animationSpeed = 48;
 
-    private void Awake() { if (sprites != null) totalFrames = sprites.Length; }
+    private void Awake() { 
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (sprites != null) totalFrames = sprites.Length; 
+    }
 
     private void Update() {
         if (sprites == null || sprites.Length == 0) return;
@@ -20,9 +22,9 @@ public class SpriteAnimation : MonoBehaviour {
             currentFrame++;
             if (currentFrame >= totalFrames) currentFrame = 0;
 
-            Vector2 size = sr.size;
-            sr.sprite = sprites[currentFrame];
-            sr.size = size;
+            Vector2 size = spriteRenderer.size;
+            spriteRenderer.sprite = sprites[currentFrame];
+            spriteRenderer.size = size;
         }
     }
 
@@ -33,8 +35,8 @@ public class SpriteAnimation : MonoBehaviour {
         frameCount = 0;
         animationSpeed = aS;
 
-        Vector2 size = sr.size;
-        sr.sprite = sprites[0];
-        sr.size = size;
+        Vector2 size = spriteRenderer.size;
+        spriteRenderer.sprite = sprites[0];
+        spriteRenderer.size = size;
     }
 }

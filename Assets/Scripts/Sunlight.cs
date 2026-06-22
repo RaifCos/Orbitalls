@@ -5,21 +5,21 @@ public class Sunlight : MonoBehaviour {
 
     [SerializeField] private LayerMask planetMask;
 
-    private readonly HashSet<GamePlanet> candidates   = new();
-    private readonly HashSet<GamePlanet> litPlanets   = new();
+    private readonly HashSet<Planet> candidates   = new();
+    private readonly HashSet<Planet> litPlanets   = new();
 
     private void FixedUpdate() { foreach (var planet in candidates) ValidateSunlight(planet); }
 
-    private void OnTriggerEnter2D(Collider2D other) { if (other.TryGetComponent<GamePlanet>(out var planet)) candidates.Add(planet); }
+    private void OnTriggerEnter2D(Collider2D other) { if (other.TryGetComponent<Planet>(out var planet)) candidates.Add(planet); }
 
     private void OnTriggerExit2D(Collider2D other) {
-        if (other.TryGetComponent<GamePlanet>(out var planet)) {
+        if (other.TryGetComponent<Planet>(out var planet)) {
             candidates.Remove(planet);
             SetLit(planet, false);
         }
     }
 
-    private void ValidateSunlight(GamePlanet planet) {
+    private void ValidateSunlight(Planet planet) {
         Vector2 origin = transform.position;
         Vector2 target = planet.transform.position;
         Vector2 dir = (target - origin).normalized;
@@ -35,7 +35,7 @@ public class Sunlight : MonoBehaviour {
         } SetLit(planet, !blocked);
     }
 
-    private void SetLit(GamePlanet planet, bool lit) {
+    private void SetLit(Planet planet, bool lit) {
         bool wasLit = litPlanets.Contains(planet);
         if (lit == wasLit) return;
 
