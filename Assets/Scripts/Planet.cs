@@ -8,14 +8,7 @@ public class Planet : MonoBehaviour {
     [SerializeField] private int humidity;
     [SerializeField] private int atmosphere;
 
-    [Header("Orbit Properties")]
-    [SerializeField] private GameObject levelSun;
-    [SerializeField] private GameObject parentPlanet;
-    [SerializeField] private float orbitRadius;
-    private float orbitAngle;
-    public bool OrbitsPlanet => parentPlanet != null;
-
-    [Header("Emission Information")]
+    [Header("Emission Properties")]
     [SerializeField] private bool hasEmissions;
     [SerializeField] private int heatChange;
     [SerializeField] private int humidityChange;
@@ -27,6 +20,13 @@ public class Planet : MonoBehaviour {
     private readonly HashSet<Planet> candidates = new();
     private readonly HashSet<Planet> activeTargets = new();
     private readonly Dictionary<object, (int heat, int humidity, int atmosphere)> activeInfluences = new();
+
+    [Header("Orbit Properties")]
+    [SerializeField] private GameObject levelSun;
+    [SerializeField] private GameObject parentPlanet;
+    [SerializeField] private float orbitRadius;
+    private float orbitAngle;
+    public bool OrbitsPlanet => parentPlanet != null;
 
     private void FixedUpdate() { foreach (var planet in candidates) { ValidateView(planet); }}
 
@@ -49,10 +49,10 @@ public class Planet : MonoBehaviour {
     }
 
     private void ValidateView(Planet planet) {
-        Vector2 origin = transform.parent.position;
+        Vector2 origin = transform.position;
         Vector2 target = planet.transform.position;
-        Vector2 dir    = (target - origin).normalized;
-        float   dist   = Vector2.Distance(origin, target);
+        Vector2 dir = (target - origin).normalized;
+        float dist = Vector2.Distance(origin, target);
 
         RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, dist, planetMask);
 

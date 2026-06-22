@@ -4,10 +4,10 @@ using UnityEngine;
 public class SpriteAnimation : MonoBehaviour {
 
     [SerializeField] private Sprite[] sprites;
+    [SerializeField] int animationSpeed = 48;
     private SpriteRenderer spriteRenderer;
 
     private int currentFrame, totalFrames, frameCount;
-    private int animationSpeed = 48;
 
     private void Awake() { 
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -26,17 +26,5 @@ public class SpriteAnimation : MonoBehaviour {
             spriteRenderer.sprite = sprites[currentFrame];
             spriteRenderer.size = size;
         }
-    }
-
-    public void UpdateSpriteList(Sprite[] newSprites, int aS) {
-        sprites = newSprites;
-        totalFrames = newSprites.Length;
-        currentFrame = 0;
-        frameCount = 0;
-        animationSpeed = aS;
-
-        Vector2 size = spriteRenderer.size;
-        spriteRenderer.sprite = sprites[0];
-        spriteRenderer.size = size;
     }
 }
