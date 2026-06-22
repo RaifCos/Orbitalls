@@ -13,12 +13,12 @@ public class GameplayManager : MonoBehaviour {
 
     [Header("Selected Planet")]
     private GameObject selectedPlanet;
-    private Planet selectedPlanetComponent;
-    private int planetLayer;
+    private GamePlanet selectedPlanetComponent;
+    private int clickLayer;
     
     private void Awake() { 
         GameManager.gameplayManager = this;
-        planetLayer = LayerMask.GetMask("Planet");    
+        clickLayer = LayerMask.GetMask("Clickable");    
     }
 
     private void OnEnable()  { planetSpin.Enable();  planetOrbit.Enable();  }
@@ -29,11 +29,11 @@ public class GameplayManager : MonoBehaviour {
         // Update Selected Planet if a planet is clicked on.
         if (Mouse.current.leftButton.wasPressedThisFrame) {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, planetLayer);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickLayer);
 
             if (hit.collider != null) {
                 selectedPlanet = hit.collider.gameObject;
-                selectedPlanetComponent = selectedPlanet.GetComponent<Planet>();
+                selectedPlanetComponent = selectedPlanet.GetComponent<GamePlanet>();
             }
         }
 

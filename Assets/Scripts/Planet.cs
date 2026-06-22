@@ -2,51 +2,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Planet : MonoBehaviour {
-    
-    [Header("Planet Properties")]
-    [SerializeField] private int heat;
-    [SerializeField] private int humidity;
-    [SerializeField] private int atmosphere;
 
     [Header("Emission Properties")]
-    [SerializeField] private bool hasEmissions;
     [SerializeField] private int heatChange;
     [SerializeField] private int humidityChange;
     [SerializeField] private int atmosphereChange;
 
     [Header("Collision Information")]
-    [SerializeField] private bool changesState;
     private LayerMask planetMask;
     private readonly HashSet<Planet> candidates = new();
     private readonly HashSet<Planet> activeTargets = new();
     private readonly Dictionary<object, (int heat, int humidity, int atmosphere)> activeInfluences = new();
 
-    [Header("Orbit Properties")]
-    [SerializeField] private GameObject levelSun;
-    [SerializeField] private GameObject parentPlanet;
-    [SerializeField] private float orbitRadius;
-    private float orbitAngle;
-    public bool OrbitsPlanet => parentPlanet != null;
+    private GamePlanet gamePlanet;
 
-    private void FixedUpdate() { foreach (var planet in candidates) { ValidateView(planet); }}
+    private void Awake() { gamePlanet = GetComponentInParent<GamePlanet>(); }
 
-    private void Update() {
-        if (!OrbitsPlanet) return;
-
-        Vector2 parentPos = parentPlanet.transform.position;
-        float rad = orbitAngle * Mathf.Deg2Rad;
-        transform.position = new Vector2(
-            parentPos.x + orbitRadius * Mathf.Cos(rad),
-            parentPos.y + orbitRadius * Mathf.Sin(rad)
-        );
-    }
-
-    public void ApplySpin(float degrees) => transform.Rotate(Vector3.forward, degrees);
-
-    public void DriveOrbit(float speed, float deltaTime) {
-        orbitAngle += speed * deltaTime;
-        if (orbitAngle >= 360f) orbitAngle -= 360f;
-    }
+    private void FixedUpdate() { foreach (var planet in candidates) { ValidateView(planet); } }
 
     private void ValidateView(Planet planet) {
         Vector2 origin = transform.position;
@@ -85,13 +57,12 @@ public class Planet : MonoBehaviour {
     public void RemoveInfluence(object source) { if (activeInfluences.Remove(source)) { RecalculateTraits(); } }
 
     private void RecalculateTraits() {
-        if (changesState == false) { return; }
-        int he = heat, hu = humidity, at = atmosphere;
+        int he = heatChange, hu = humidityChange, at = atmosphereChange;
         foreach (var inf in activeInfluences.Values) {
             he += inf.heat;
             hu += inf.humidity;
             at += inf.atmosphere;
-        }
+        } gamePlanet?.ApplyTraits(he, hu, at);
     }
 
     private void OnTriggerStay2D(Collider2D other) {
