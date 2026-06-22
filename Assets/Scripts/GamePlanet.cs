@@ -65,7 +65,10 @@ public class GamePlanet : MonoBehaviour {
             previousPlanet = currentPlanet;
         }
 
-        if (transform.childCount == 0) return;
+        if (transform.childCount == 0) {
+            Debug.Log($"{gameObject.name}: no children found in Awake, element skipped");
+            return;
+        }
         GameObject elementGO = transform.GetChild(0).gameObject;
         if (!elementGO.TryGetComponent(out gameElement)) return;
 

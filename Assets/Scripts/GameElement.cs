@@ -1,11 +1,8 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
-[RequireComponent(typeof(SpriteAnimation))]
 public class GameElement : MonoBehaviour {
 
     private Element element;
@@ -17,13 +14,11 @@ public class GameElement : MonoBehaviour {
     private float parentRadius;
     private float fullHeight;
     private float width;
-    private SpriteRenderer sr;
     private BoxCollider2D col;
 
-    private void FixedUpdate() {
-        foreach (var planet in candidates) { ValidateView(planet); }
-        if (sr != null) UpdateVisualClip();
-    }
+    private readonly Dictionary<GamePlanet, ParticleSystem> _activeParticles = new();
+
+    private void FixedUpdate() { foreach (var planet in candidates) { ValidateView(planet); }}
 
     public void SetElement(Element e, int r, float w) {
         element = e;
@@ -38,40 +33,15 @@ public class GameElement : MonoBehaviour {
         transform.localScale    = Vector3.one;
         transform.localPosition = new Vector3(0f, parentRadius + fullHeight * 0.5f, 0f);
 
-        GetComponent<SpriteAnimation>().UpdateSpriteList(element.sprites, element.animationSpeed);
-
-        sr = GetComponent<SpriteRenderer>();
-        sr.drawMode = SpriteDrawMode.Tiled;
-        sr.size = new Vector2(width, fullHeight);
-
         col = GetComponent<BoxCollider2D>();
         col.isTrigger = true;
         col.offset = Vector2.zero;
         col.size = new Vector2(width, fullHeight);
     }
 
-    private void UpdateVisualClip() {
-        Vector2 origin = transform.parent.position;
-        Vector2 dir = ((Vector2)transform.position - (Vector2)transform.parent.position).normalized;
-
-        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, reach, planetMask);
-        float nearestStop = reach;
-
-        foreach (var hit in hits) {
-            if (hit.collider.gameObject == transform.parent.gameObject) continue;
-            float hitDist = hit.distance;
-            if (hit.collider.TryGetComponent<GamePlanet>(out var gp) && activeTargets.Contains(gp)) {
-                nearestStop = Mathf.Min(nearestStop, hitDist);
-                break; 
-            }
-
-            nearestStop = Mathf.Min(nearestStop, hitDist);
-            break;
-        }
-
-        float clippedHeight = Mathf.Max(0f, nearestStop - parentRadius);
-        transform.localPosition = new Vector3(0f, parentRadius + clippedHeight * 0.5f, 0f);
-        sr.size = new Vector2(width, clippedHeight);
+    private void OnTriggerStay2D(Collider2D other) {
+        if (other.gameObject == transform.parent.gameObject) return;
+        if (other.TryGetComponent<GamePlanet>(out var planet)) { candidates.Add(planet); }
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -109,15 +79,40 @@ public class GameElement : MonoBehaviour {
         if (active) {
             activeTargets.Add(planet);
             planet.AddInfluence(this, element.heatEffect, element.humidityEffect, element.atmosphereEffect);
+            SpawnParticle(planet);
         } else {
             activeTargets.Remove(planet);
             planet.RemoveInfluence(this);
+            ReleaseParticle(planet);
         }
+    }
+
+    private void SpawnParticle(GamePlanet planet) {
+        var ps = GameManager.particleManager.Get(element.internalName);
+        if (ps == null) return;
+        var parent = transform.parent;
+        ps.transform.SetParent(parent);
+        ps.transform.position = parent.position;
+        ps.Play();
+        _activeParticles[planet] = ps;
+    }
+
+    private void ReleaseParticle(GamePlanet planet) {
+        if (!_activeParticles.TryGetValue(planet, out var ps)) return;
+        ps.transform.SetParent(null);
+        GameManager.particleManager.Release(element.internalName, ps);
+        _activeParticles.Remove(planet);
     }
 
     private void OnDisable() {
         foreach (var planet in activeTargets) { planet.RemoveInfluence(this); }
         activeTargets.Clear();
         candidates.Clear();
+
+        foreach (var (planet, ps) in new Dictionary<GamePlanet, ParticleSystem>(_activeParticles)) {
+            ps.transform.SetParent(null);
+            GameManager.particleManager.Release(element.internalName, ps);
+        }
+        _activeParticles.Clear();
     }
 }
