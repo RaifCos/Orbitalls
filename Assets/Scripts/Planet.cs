@@ -12,13 +12,44 @@ public class Planet : MonoBehaviour {
     private LayerMask planetMask;
     private readonly HashSet<Planet> candidates = new();
     private readonly HashSet<Planet> activeTargets = new();
-    private readonly Dictionary<object, (int heat, int humidity, int atmosphere)> activeInfluences = new();
 
     private GamePlanet gamePlanet;
+    public void Initialize(GamePlanet owner) => gamePlanet = owner;
 
-    private void Awake() { gamePlanet = GetComponentInParent<GamePlanet>(); }
+    private void OnEnable() {
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) {
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.SetLayerMask(planetMask);
+            filter.useTriggers = true;
 
-    private void FixedUpdate() { foreach (var planet in candidates) { ValidateView(planet); } }
+            List<Collider2D> overlapping = new List<Collider2D>();
+            Physics2D.OverlapCollider(col, filter, overlapping);
+
+            foreach (var other in overlapping) {
+                if (other.TryGetComponent<Planet>(out var planet) && planet != this) {
+                    candidates.Add(planet);
+                }
+            }
+        }
+
+        ParticleSystem ps = GetComponent<ParticleSystem>();
+        if (ps != null) ps.Play();
+    }
+
+    private void OnDisable() {
+        foreach (var target in activeTargets) {
+            target.RemoveInfluence(this);
+        }
+        activeTargets.Clear();
+        candidates.Clear();
+    }
+
+   private void FixedUpdate() {
+        foreach (var planet in new List<Planet>(candidates)) { 
+            ValidateView(planet); 
+        }
+    }
 
     private void ValidateView(Planet planet) {
         Vector2 origin = transform.position;
@@ -50,19 +81,23 @@ public class Planet : MonoBehaviour {
     }
 
     public void AddInfluence(object source, int heat, int humidity, int atmosphere) {
-        activeInfluences[source] = (heat, humidity, atmosphere);
-        RecalculateTraits();
+        if (gamePlanet == null) gamePlanet = GetComponentInParent<GamePlanet>();
+        if (gamePlanet == null) return;
+        gamePlanet.ApplyInfluence(source, heat, humidity, atmosphere);
     }
 
-    public void RemoveInfluence(object source) { if (activeInfluences.Remove(source)) { RecalculateTraits(); } }
+    public void RemoveInfluence(object source) {
+        if (gamePlanet == null) gamePlanet = GetComponentInParent<GamePlanet>();
+        if (gamePlanet == null) return;
+        gamePlanet.RemoveInfluence(source);
+    }
 
-    private void RecalculateTraits() {
-        int he = heatChange, hu = humidityChange, at = atmosphereChange;
-        foreach (var inf in activeInfluences.Values) {
-            he += inf.heat;
-            hu += inf.humidity;
-            at += inf.atmosphere;
-        } gamePlanet?.ApplyTraits(he, hu, at);
+    public void Teardown() {
+        foreach (var target in activeTargets) {
+            target.RemoveInfluence(this);
+        }
+        activeTargets.Clear();
+        candidates.Clear();
     }
 
     private void OnTriggerStay2D(Collider2D other) {
@@ -72,4 +107,11 @@ public class Planet : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.TryGetComponent<Planet>(out var planet)) { candidates.Add(planet); }
     }
+
+    private void OnTriggerExit2D(Collider2D other) {
+    if (other.TryGetComponent<Planet>(out var planet)) {
+        candidates.Remove(planet);
+        SetActive(planet, false);
+    }
+}
 }

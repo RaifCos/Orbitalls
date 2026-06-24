@@ -27,4 +27,9 @@ public class SpriteAnimation : MonoBehaviour {
             spriteRenderer.size = size;
         }
     }
+
+    public void ResetAnimation() {
+        frameCount = 0;
+        currentFrame = 0;
+    }
 }

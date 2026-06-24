@@ -25,8 +25,6 @@ public class GameplayManager : MonoBehaviour {
     private void OnDisable() { planetSpin.Disable(); planetOrbit.Disable(); }
 
     private void Update() {
-
-        // Update Selected Planet if a planet is clicked on.
         if (Mouse.current.leftButton.wasPressedThisFrame) {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickLayer);
@@ -37,7 +35,6 @@ public class GameplayManager : MonoBehaviour {
             }
         }
 
-        // If a planet is selected, update its spin and/or orbit based on player input.
         if (selectedPlanet != null) {
             float spinInput = planetSpin.ReadValue<float>();
             
