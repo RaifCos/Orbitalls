@@ -53,6 +53,9 @@ MonoBehaviour:
   heatChange: 0
   humidityChange: 0
   atmosphereChange: 0
+  planetMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!58 &6626362304190432289
 CircleCollider2D:
   m_ObjectHideFlags: 0
