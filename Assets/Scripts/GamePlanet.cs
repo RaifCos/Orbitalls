@@ -141,12 +141,12 @@ public class GamePlanet : MonoBehaviour {
     public void RemoveInfluence(object source) { if (persistedInfluences.Remove(source)) RecalculateAndApply(); }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.TryGetComponent<GamePlanet>(out var planet))
-            candidates.Add(planet);
+    if (other is CircleCollider2D && other.TryGetComponent<GamePlanet>(out var planet))
+        candidates.Add(planet);
     }
 
     private void OnTriggerExit2D(Collider2D other) {
-        if (other.TryGetComponent<GamePlanet>(out var planet)) {
+        if (other is CircleCollider2D && other.TryGetComponent<GamePlanet>(out var planet)) {
             candidates.Remove(planet);
             SetActiveTarget(planet, false);
         }

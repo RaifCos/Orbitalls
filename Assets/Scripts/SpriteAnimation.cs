@@ -15,7 +15,7 @@ public class SpriteAnimation : MonoBehaviour {
     }
 
     private void Update() {
-        if (sprites == null || sprites.Length <= 1) return;
+        if (sprites == null || sprites.Length == 0) return;
         frameCount++;
         if (frameCount >= animationSpeed) {
             frameCount = 0;

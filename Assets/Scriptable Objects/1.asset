@@ -15,7 +15,8 @@ MonoBehaviour:
   sprites:
   - {fileID: 21300000, guid: 5cf0f9c11074a0a4e99b20869ec49c8c, type: 3}
   animationSpeed: 48
-  hasEmissions: 0
-  heat: 0
+  hasEmissions: 1
+  heat: -1
   humidity: 0
   atmosphere: 0
+  particlePrefab: {fileID: 0}
