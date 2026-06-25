@@ -101,6 +101,9 @@ public class GamePlanet : MonoBehaviour {
             activeParticleInstance = null;
         }
 
+        if (newPlanet.isHome) { StartCoroutine(GameManager.instance.LevelWin(transform.position)); }
+        else { transitionParticle.Play(); }
+
         currentPlanet = newPlanet;
         spriteAnimation.ChangeAnimation(currentPlanet);
         emissionTrigger.enabled = currentPlanet.hasEmissions;
@@ -113,9 +116,6 @@ public class GamePlanet : MonoBehaviour {
             instance.SetActive(true);
             activeParticleInstance = instance;
         }
-
-        if (currentPlanet.isHome) { StartCoroutine(GameManager.instance.LevelWin(transform.position)); }
-        else { transitionParticle.Play(); }
     }
 
     #endregion
