@@ -18,8 +18,10 @@ struct PlanetData {
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public static GameplayManager gameplayManager;
+    public static VisualManager visualManager;
 
     [Header("Game Data")]
+    public bool isPlaying = false;
     public int currentLevel;
     [SerializeField] private GameObject[] levels;
 
@@ -66,5 +68,16 @@ public class GameManager : MonoBehaviour {
 
     public Planet GetPlanet(int x, int y, int z) => GetPlanet(GetPlanetIndex(x, y, z));
 
+    public void StartGame() {
+        currentLevel = 0;
+        levels[currentLevel].SetActive(true);
+    }
 
+    public void NextLevel() {
+        levels[currentLevel].GetComponent<LevelTransition>().ExitLevel();
+        if (currentLevel < levels.Length - 1) {
+            currentLevel++;
+            levels[currentLevel].SetActive(true);
+        } else {  visualManager.CreditRoll(); }
+    }
 }

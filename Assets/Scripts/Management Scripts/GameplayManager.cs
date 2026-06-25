@@ -25,7 +25,7 @@ public class GameplayManager : MonoBehaviour {
     private void OnDisable() { planetSpin.Disable(); planetOrbit.Disable(); }
 
     private void Update() {
-        if (Mouse.current.leftButton.wasPressedThisFrame) {
+        if (Mouse.current.leftButton.wasPressedThisFrame && GameManager.instance.isPlaying) {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, clickLayer);
 
