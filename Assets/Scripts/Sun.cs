@@ -10,9 +10,7 @@ public class GameSun : MonoBehaviour {
 
     private readonly HashSet<GamePlanet> activeTargets = new();
 
-    private void Update() {
-        ScanForPlanets();
-    }
+    private void Update() { ScanForPlanets(); }
 
     private void ScanForPlanets() {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, influenceRadius, planetMask);
