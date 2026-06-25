@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Planet
+  - Clickable
   layers:
   - Default
   - TransparentFX
@@ -12,7 +13,7 @@ TagManager:
   - Planet
   - Water
   - UI
-  - 
+  - Clickable
   - 
   - 
   - 
@@ -39,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3706285349
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
