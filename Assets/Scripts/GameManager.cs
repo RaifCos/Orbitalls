@@ -18,7 +18,6 @@ struct PlanetData {
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public static GameplayManager gameplayManager;
-    public static DataManager dataManager;
 
     [SerializeField] private Planet[] planetObjects;
 
