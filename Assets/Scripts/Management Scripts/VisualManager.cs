@@ -18,7 +18,7 @@ public class VisualManager : MonoBehaviour {
     public void CreditRoll() {
         isCredits = true;
         creditScreen.SetActive(true);
-        creditUI.anchoredPosition = Vector2.left * 1650f;
+        creditUI.anchoredPosition = Vector2.right * uiSlideTarget;
         uiSlideTarget = 0f;
         if (!isSliding) StartCoroutine(SlideMenu());
     }
