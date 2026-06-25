@@ -18,7 +18,8 @@ MonoBehaviour:
   - {fileID: 6839046701284067787, guid: 2c771deeb3b3caf4aa07418e900588c6, type: 3}
   - {fileID: -5449914546293270277, guid: 2c771deeb3b3caf4aa07418e900588c6, type: 3}
   animationSpeed: 48
-  hasEmissions: 0
+  hasEmissions: 1
   heat: 0
   humidity: 0
-  atmosphere: 0
+  atmosphere: -1
+  particlePrefab: {fileID: 6669092762761945876, guid: ce518b808bef21248af93f31d1c43bd9, type: 3}

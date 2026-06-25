@@ -20,5 +20,6 @@ MonoBehaviour:
   animationSpeed: 48
   hasEmissions: 0
   heat: 0
-  humidity: 0
+  humidity: 1
   atmosphere: 0
+  particlePrefab: {fileID: 4267780691606257852, guid: 7f0cdbaf99440e545b227dc97f47071b, type: 3}

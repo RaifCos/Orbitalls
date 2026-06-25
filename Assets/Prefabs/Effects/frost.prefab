@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2342089317075721996}
   - component: {fileID: 6541170230668898287}
   - component: {fileID: 2948131167546693315}
+  - component: {fileID: -5966182832459183936}
   m_Layer: 0
   m_Name: frost
   m_TagString: Untagged
@@ -4836,3 +4837,16 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &-5966182832459183936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4267780691606257852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bebb5d0e5e236754694c33b464e42fca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  ps: {fileID: 6541170230668898287}

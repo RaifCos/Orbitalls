@@ -21,6 +21,8 @@ public class GamePlanet : MonoBehaviour {
     private ParticleSystem transitionParticle;
     private BoxCollider2D emissionTrigger;
     private SpriteAnimation spriteAnimation;
+    private readonly Dictionary<Planet, GameObject> particleInstances = new();
+    private GameObject activeParticleInstance;
 
     [Header("Collision Properties")]
     [SerializeField] private LayerMask planetMask;
@@ -59,6 +61,12 @@ public class GamePlanet : MonoBehaviour {
         );
     }
 
+    private void OnDestroy() {
+        foreach (var instance in particleInstances.Values)
+            if (instance != null) Destroy(instance);
+        particleInstances.Clear();
+    }
+
     #region Player Movements
 
     public void ApplySpin(float degrees) => transform.Rotate(Vector3.forward, degrees);
@@ -85,10 +93,24 @@ public class GamePlanet : MonoBehaviour {
             return;
         }
 
+        if (activeParticleInstance != null) {
+            activeParticleInstance.SetActive(false);
+            activeParticleInstance = null;
+        }
+
         transitionParticle.Play();
         currentPlanet = newPlanet;
         spriteAnimation.ChangeAnimation(currentPlanet);
         emissionTrigger.enabled = currentPlanet.hasEmissions;
+
+        if (currentPlanet.hasEmissions && currentPlanet.particlePrefab != null) {
+            if (!particleInstances.TryGetValue(currentPlanet, out var instance)) {
+                instance = Instantiate(currentPlanet.particlePrefab, transform);
+                particleInstances[currentPlanet] = instance;
+            }
+            instance.SetActive(true);
+            activeParticleInstance = instance;
+        }
     }
 
     #endregion

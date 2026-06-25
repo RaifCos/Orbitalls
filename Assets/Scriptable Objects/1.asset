@@ -19,4 +19,4 @@ MonoBehaviour:
   heat: -1
   humidity: 0
   atmosphere: 0
-  particlePrefab: {fileID: 0}
+  particlePrefab: {fileID: 4267780691606257852, guid: 0b4481b4f5c6d5144b64dde801bba167, type: 3}

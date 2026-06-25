@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 266840813154690395}
   - component: {fileID: 8113168784147549251}
   - component: {fileID: 3918935157807899369}
+  - component: {fileID: -6177060931372519411}
   m_Layer: 0
   m_Name: wind
   m_TagString: Untagged
@@ -4836,3 +4837,16 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &-6177060931372519411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6669092762761945876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bebb5d0e5e236754694c33b464e42fca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleController
+  ps: {fileID: 8113168784147549251}
