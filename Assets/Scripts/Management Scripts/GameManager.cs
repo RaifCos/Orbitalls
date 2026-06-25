@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +17,7 @@ struct PlanetData {
 }
 
 public class GameManager : MonoBehaviour {
+    private static WaitForSeconds _waitForSeconds2 = new(2f);
     public static GameManager instance;
     public static GameplayManager gameplayManager;
     public static VisualManager visualManager;
@@ -28,6 +30,11 @@ public class GameManager : MonoBehaviour {
     [Header("Planet Data")]
     [SerializeField] private Planet[] planetObjects;
     Dictionary<(int, int, int), PlanetData> planetDict;
+
+    [Header("Flair Data")]
+    [SerializeField] private GameObject particleObject;
+    private ParticleSystem pS;
+    [SerializeField] private AudioSource winAudio;
 
     void Awake() {
         instance = this;
@@ -62,6 +69,8 @@ public class GameManager : MonoBehaviour {
         };
     }
 
+    void Start() { pS = particleObject.GetComponent<ParticleSystem>(); } 
+
     public int GetPlanetIndex(int x, int y, int z) => planetDict[(Mathf.Clamp(x, -1, 1), Mathf.Clamp(y, -1, 1), Mathf.Clamp(z, -1, 1))].index;
 
     public Planet GetPlanet(int index) => planetDict.ElementAt(index).Value.planet;
@@ -71,6 +80,17 @@ public class GameManager : MonoBehaviour {
     public void StartGame() {
         currentLevel = 0;
         levels[currentLevel].SetActive(true);
+    }
+
+    public IEnumerator LevelWin(Vector3 winningPosition) {
+        if (isPlaying == true) {
+            isPlaying = false;
+            particleObject.transform.position = winningPosition;
+            pS.Play();
+            winAudio.Play();
+            yield return _waitForSeconds2;
+            NextLevel();
+        }
     }
 
     public void NextLevel() {
