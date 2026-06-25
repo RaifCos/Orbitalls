@@ -19,8 +19,12 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public static GameplayManager gameplayManager;
 
-    [SerializeField] private Planet[] planetObjects;
+    [Header("Game Data")]
+    public int currentLevel;
+    [SerializeField] private GameObject[] levels;
 
+    [Header("Planet Data")]
+    [SerializeField] private Planet[] planetObjects;
     Dictionary<(int, int, int), PlanetData> planetDict;
 
     void Awake() {

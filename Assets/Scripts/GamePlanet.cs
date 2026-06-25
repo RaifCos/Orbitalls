@@ -12,9 +12,9 @@ public class GamePlanet : MonoBehaviour {
     [SerializeField] private int atmosphere;
 
     [Header("Orbit Properties")]
-    [SerializeField] private GameObject levelSun;
     [SerializeField] private GameObject parentPlanet;
     [SerializeField] private float orbitRadius;
+    private OrbitIndicator orbitIndicator;
 
     [Header("Game Object Properties")]
     private Planet currentPlanet, newPlanet;
@@ -47,6 +47,9 @@ public class GamePlanet : MonoBehaviour {
         currentAtmosphere = atmosphere;
         newPlanet = GameManager.instance.GetPlanet(heat, humidity, atmosphere);
         SetPlanet();
+
+        orbitIndicator = GetComponent<OrbitIndicator>();
+        if (OrbitsPlanet && orbitIndicator != null) orbitIndicator.Initialise(parentPlanet.transform, orbitRadius);
     }
 
     private void Update() {
@@ -111,6 +114,8 @@ public class GamePlanet : MonoBehaviour {
             instance.SetActive(true);
             activeParticleInstance = instance;
         }
+
+        if (currentPlanet.isHome) { /* GameManager function to complete level */ }
     }
 
     #endregion
