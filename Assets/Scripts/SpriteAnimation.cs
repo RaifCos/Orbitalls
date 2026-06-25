@@ -15,7 +15,7 @@ public class SpriteAnimation : MonoBehaviour {
     }
 
     private void Update() {
-        if (sprites == null || sprites.Length == 0) return;
+        if (sprites == null || sprites.Length <= 1) return;
         frameCount++;
         if (frameCount >= animationSpeed) {
             frameCount = 0;
@@ -26,6 +26,22 @@ public class SpriteAnimation : MonoBehaviour {
             spriteRenderer.sprite = sprites[currentFrame];
             spriteRenderer.size = size;
         }
+    }
+
+    public void ChangeAnimation(Planet planet) {
+        if (planet == null) {
+            sprites = null;
+            totalFrames = 0;
+            frameCount = 0;
+            currentFrame = 0;
+            return;
+        }
+
+        sprites = planet.sprites;
+        totalFrames = sprites != null ? sprites.Length : 0;
+        animationSpeed = planet.animationSpeed;
+        frameCount = 0;
+        currentFrame = 0;
     }
 
     public void ResetAnimation() {

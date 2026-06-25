@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Planet : MonoBehaviour {
+public class PlanetOld : MonoBehaviour {
 
     [Header("Emission Properties")]
     [SerializeField] private int heatChange;
@@ -10,8 +10,8 @@ public class Planet : MonoBehaviour {
 
     [Header("Collision Information")]
     private LayerMask planetMask;
-    private readonly HashSet<Planet> candidates = new();
-    private readonly HashSet<Planet> activeTargets = new();
+    private readonly HashSet<PlanetOld> candidates = new();
+    private readonly HashSet<PlanetOld> activeTargets = new();
 
     private GamePlanet gamePlanet;
     public void Initialize(GamePlanet owner) => gamePlanet = owner;
@@ -27,7 +27,7 @@ public class Planet : MonoBehaviour {
             Physics2D.OverlapCollider(col, filter, overlapping);
 
             foreach (var other in overlapping) {
-                if (other.TryGetComponent<Planet>(out var planet) && planet != this) {
+                if (other.TryGetComponent<PlanetOld>(out var planet) && planet != this) {
                     candidates.Add(planet);
                 }
             }
@@ -46,12 +46,12 @@ public class Planet : MonoBehaviour {
     }
 
    private void FixedUpdate() {
-        foreach (var planet in new List<Planet>(candidates)) { 
+        foreach (var planet in new List<PlanetOld>(candidates)) { 
             ValidateView(planet); 
         }
     }
 
-    private void ValidateView(Planet planet) {
+    private void ValidateView(PlanetOld planet) {
         Vector2 origin = transform.position;
         Vector2 target = planet.transform.position;
         Vector2 dir = (target - origin).normalized;
@@ -68,7 +68,7 @@ public class Planet : MonoBehaviour {
         } SetActive(planet, !blocked);
     }
 
-    private void SetActive(Planet planet, bool active) {
+    private void SetActive(PlanetOld planet, bool active) {
         bool wasActive = activeTargets.Contains(planet);
         if (active == wasActive) return;
         if (active) {
@@ -101,15 +101,15 @@ public class Planet : MonoBehaviour {
     }
 
     private void OnTriggerStay2D(Collider2D other) {
-        if (other.TryGetComponent<Planet>(out var planet)) { candidates.Add(planet); }
+        if (other.TryGetComponent<PlanetOld>(out var planet)) { candidates.Add(planet); }
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.TryGetComponent<Planet>(out var planet)) { candidates.Add(planet); }
+        if (other.TryGetComponent<PlanetOld>(out var planet)) { candidates.Add(planet); }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
-    if (other.TryGetComponent<Planet>(out var planet)) {
+    if (other.TryGetComponent<PlanetOld>(out var planet)) {
         candidates.Remove(planet);
         SetActive(planet, false);
     }

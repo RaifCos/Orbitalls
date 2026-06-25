@@ -18,7 +18,7 @@ public class GameplayManager : MonoBehaviour {
     
     private void Awake() { 
         GameManager.gameplayManager = this;
-        clickLayer = LayerMask.GetMask("Clickable");    
+        clickLayer = LayerMask.GetMask("Planet");    
     }
 
     private void OnEnable()  { planetSpin.Enable();  planetOrbit.Enable();  }

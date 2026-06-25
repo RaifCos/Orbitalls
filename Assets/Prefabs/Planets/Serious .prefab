@@ -53,9 +53,6 @@ MonoBehaviour:
   heatChange: 0
   humidityChange: 0
   atmosphereChange: 0
-  planetMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!58 &3958026145555407178
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -173,7 +170,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

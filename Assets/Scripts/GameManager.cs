@@ -1,16 +1,17 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 struct PlanetData {
     public int index;
     public bool animated;
     public bool emissions;
-    public GameObject prefab;
+    public Planet planet;
 
-    public PlanetData(int i, bool a, bool e, GameObject prefab) {
+    public PlanetData(int i, bool a, bool e, Planet planet) {
         index = i;
         animated = a;
         emissions = e;
-        this.prefab = prefab;
+        this.planet = planet;
     }
 }
 
@@ -18,9 +19,8 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public static GameplayManager gameplayManager;
     public static DataManager dataManager;
-    public static PoolManager poolManager;
 
-    [SerializeField] private GameObject[] planetObjects;
+    [SerializeField] private Planet[] planetObjects;
 
     Dictionary<(int, int, int), PlanetData> planetDict;
 
@@ -58,5 +58,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public int GetPlanetIndex(int x, int y, int z) => planetDict[(Mathf.Clamp(x, -1, 1), Mathf.Clamp(y, -1, 1), Mathf.Clamp(z, -1, 1))].index;
+
+    public Planet GetPlanet(int index) => planetDict.ElementAt(index).Value.planet;
+
+    public Planet GetPlanet(int x, int y, int z) => GetPlanet(GetPlanetIndex(x, y, z));
+
 
 }

@@ -2,16 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(ParticleSystem))]
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(SpriteAnimation))]
 public class GamePlanet : MonoBehaviour {
 
-    [Header("Planet Properties")]
-    private int currentPlanetIndex = -1;
-    private GameObject currentPlanetObj;
-    private ParticleSystem transitionParticle;
-    private readonly Dictionary<object, (int heat, int humidity, int atmosphere)> persistedInfluences = new();
-
-
-    [Header("Climate Properties")]
+    [Header("Default Climate")]
     [SerializeField] private int heat;
     [SerializeField] private int humidity;
     [SerializeField] private int atmosphere;
@@ -21,27 +16,39 @@ public class GamePlanet : MonoBehaviour {
     [SerializeField] private GameObject parentPlanet;
     [SerializeField] private float orbitRadius;
 
+    [Header("Game Object Properties")]
+    private Planet currentPlanet, newPlanet;
+    private ParticleSystem transitionParticle;
+    private BoxCollider2D emissionTrigger;
+    private SpriteAnimation spriteAnimation;
+
+    [Header("Collision Properties")]
+    [SerializeField] private LayerMask planetMask;
+    private readonly HashSet<GamePlanet> candidates = new();
+    private readonly HashSet<GamePlanet> activeTargets = new();
+    private readonly Dictionary<object, (int heat, int humidity, int atmosphere)> persistedInfluences = new();
+
     private float orbitAngle;
     public bool OrbitsPlanet => parentPlanet != null;
-
     public int BaseHeat => heat;
     public int BaseHumidity => humidity;
     public int BaseAtmosphere => atmosphere;
 
-    public int CurrentHeat { get; private set; }
-    public int CurrentHumidity { get; private set; }
-    public int CurrentAtmosphere { get; private set; }
+    private int currentHeat, currentHumidity, currentAtmosphere;
 
     private void Start() {
-        CurrentHeat = heat;
-        CurrentHumidity = humidity;
-        CurrentAtmosphere = atmosphere;
         transitionParticle = GetComponent<ParticleSystem>();
-        currentPlanetIndex = GameManager.instance.GetPlanetIndex(heat, humidity, atmosphere);
-        SetPlanet(currentPlanetIndex);
+        emissionTrigger = GetComponent<BoxCollider2D>();
+        spriteAnimation = GetComponent<SpriteAnimation>();
+        currentHeat = heat;
+        currentHumidity = humidity;
+        currentAtmosphere = atmosphere;
+        newPlanet = GameManager.instance.GetPlanet(heat, humidity, atmosphere);
+        SetPlanet();
     }
 
     private void Update() {
+        foreach (var planet in new List<GamePlanet>(candidates)) { ValidateView(planet); }
         if (!OrbitsPlanet) return;
 
         Vector2 parentPos = parentPlanet.transform.position;
@@ -52,6 +59,8 @@ public class GamePlanet : MonoBehaviour {
         );
     }
 
+    #region Player Movements
+
     public void ApplySpin(float degrees) => transform.Rotate(Vector3.forward, degrees);
 
     public void DriveOrbit(float speed, float deltaTime) {
@@ -59,63 +68,89 @@ public class GamePlanet : MonoBehaviour {
         if (orbitAngle >= 360f) orbitAngle -= 360f;
     }
 
+    #endregion
+    #region Planet State Updates
+
     public void ApplyTraits(int heat, int humidity, int atmosphere) {
-        CurrentHeat = heat;
-        CurrentHumidity = humidity;
-        CurrentAtmosphere = atmosphere;
-        int newPlanetIndex = GameManager.instance.GetPlanetIndex(heat, humidity, atmosphere);
-        if (newPlanetIndex != currentPlanetIndex) {
-            SetPlanet(newPlanetIndex);
-        }
+        currentHeat = heat;
+        currentHumidity = humidity;
+        currentAtmosphere = atmosphere;
+        newPlanet = GameManager.instance.GetPlanet(currentHeat, currentHumidity, currentAtmosphere);
+        if (currentPlanet != newPlanet) { SetPlanet(); }
     }
 
-    private void SetPlanet(int newIndex) {
+    private void SetPlanet() {
+        if (newPlanet == null) {
+            Debug.LogWarning($"No planet definition found for climate values ({heat}, {humidity}, {atmosphere}).");
+            return;
+        }
+
         transitionParticle.Play();
-
-        if (currentPlanetObj != null) {
-            foreach (var planet in currentPlanetObj.GetComponentsInChildren<Planet>()) {
-                planet.Teardown();
-            }
-            GameManager.poolManager.Release(currentPlanetIndex, currentPlanetObj);
-        }
-
-        currentPlanetIndex = newIndex;
-        currentPlanetObj = GameManager.poolManager.Get(currentPlanetIndex);
-        currentPlanetObj.transform.SetParent(transform);
-        currentPlanetObj.transform.localPosition = Vector3.zero;
-        currentPlanetObj.transform.localRotation = Quaternion.identity;
-
-        foreach (var planet in currentPlanetObj.GetComponentsInChildren<Planet>()) {
-            planet.Initialize(this);
-        }
-}
-
-    public void ClearPlanet() {
-        if (currentPlanetObj == null) return;
-        GameManager.poolManager.Release(currentPlanetIndex, currentPlanetObj);
-        currentPlanetObj = null;
-        currentPlanetIndex = -1;
+        currentPlanet = newPlanet;
+        spriteAnimation.ChangeAnimation(currentPlanet);
+        emissionTrigger.enabled = currentPlanet.hasEmissions;
     }
-    
+
+    #endregion
+    #region Planet Emission Updates
+
+
+    private void ValidateView(GamePlanet planet) {
+        Vector2 origin = transform.position;
+        Vector2 target = planet.transform.position;
+        Vector2 dir = (target - origin).normalized;
+        float dist = Vector2.Distance(origin, target);
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, dist, planetMask);
+
+        bool blocked = false;
+        foreach (var hit in hits) {
+            if (hit.collider.gameObject == gameObject) continue;
+            if (hit.collider.gameObject == planet.gameObject) continue;
+            blocked = true;
+            break;
+        } SetActiveTarget(planet, !blocked);
+    }
+
+    private void SetActiveTarget(GamePlanet planet, bool active) {
+        bool wasActive = activeTargets.Contains(planet);
+        if (active == wasActive) return;
+        if (active) {
+            activeTargets.Add(planet);
+            planet.ApplyInfluence(this, currentPlanet.heat, currentPlanet.humidity, currentPlanet.atmosphere);
+        } else {
+            activeTargets.Remove(planet);
+            planet.RemoveInfluence(this);
+        }
+    }
+
+    private void RecalculateAndApply() {
+        int he = BaseHeat, hu = BaseHumidity, at = BaseAtmosphere;
+        foreach (var (h, hum, atm) in persistedInfluences.Values) {
+            he += h;
+            hu += hum;
+            at += atm;
+        } ApplyTraits(he, hu, at);
+    }
+
     public void ApplyInfluence(object source, int heat, int humidity, int atmosphere) {
         persistedInfluences[source] = (heat, humidity, atmosphere);
         RecalculateAndApply();
     }
 
-    public void RemoveInfluence(object source) {
-        if (persistedInfluences.Remove(source))
-            RecalculateAndApply();
+    public void RemoveInfluence(object source) { if (persistedInfluences.Remove(source)) RecalculateAndApply(); }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.TryGetComponent<GamePlanet>(out var planet))
+            candidates.Add(planet);
     }
 
-    private void RecalculateAndApply() {
-        int he = heat, hu = humidity, at = atmosphere;
-        foreach (var (h, hum, atm) in persistedInfluences.Values)
-        {
-            he += h;
-            hu += hum;
-            at += atm;
+    private void OnTriggerExit2D(Collider2D other) {
+        if (other.TryGetComponent<GamePlanet>(out var planet)) {
+            candidates.Remove(planet);
+            SetActiveTarget(planet, false);
         }
-        ApplyTraits(he, hu, at);
     }
 
+    #endregion
 }
