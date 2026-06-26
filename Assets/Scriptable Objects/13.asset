@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c7444719c990b4ab63dbd1fc778763, type: 3}
   m_Name: 13
   m_EditorClassIdentifier: Assembly-CSharp::Planet
+  isHome: 1
   sprites:
   - {fileID: 6423806749927177598, guid: cb1f8e9ccbadd0543ac807982492ba47, type: 3}
   - {fileID: -3086602609980112195, guid: cb1f8e9ccbadd0543ac807982492ba47, type: 3}
@@ -20,3 +21,4 @@ MonoBehaviour:
   heat: 0
   humidity: 0
   atmosphere: 0
+  particlePrefab: {fileID: 0}
