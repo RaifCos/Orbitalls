@@ -537,7 +537,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8740491524576469797, guid: 0f055ec962eb8a34293a767865333aa5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6c7017998c69bdf4eb719e49f52022bd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1481,7 +1481,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The sun is pretty epic.
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2958adde1f0bf8f469953452df256cec, type: 2}
   m_sharedMaterial: {fileID: 7343200459249287742, guid: 2958adde1f0bf8f469953452df256cec, type: 2}
@@ -17573,7 +17573,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SUN
+  m_text: Frosted Chasm
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2958adde1f0bf8f469953452df256cec, type: 2}
   m_sharedMaterial: {fileID: 7343200459249287742, guid: 2958adde1f0bf8f469953452df256cec, type: 2}
@@ -18672,7 +18672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1916637271
 MonoBehaviour:
   m_ObjectHideFlags: 0
