@@ -111,26 +111,41 @@ public class GamePlanet : MonoBehaviour {
     }
 
     private void UpdateEmissions() {
+        bool wasEmitting = currentlyEmitting;
         currentlyEmitting = currentPlanet.hasEmissions || (currentPlanet.propagatesHeat && currentHeat > BaseHeat);
-        if(!currentlyEmitting && !currentPlanet.movesTargets) { emissionTrigger.enabled = false; return; }
-        emissionTrigger.enabled = true;
-
-        if (currentlyEmitting) {
-            emissionTrigger.offset = new(0, 2.5f);
-            emissionTrigger.size = new(1, 5f);
-        }
         
-        if (currentPlanet.movesTargets) {
-            emissionTrigger.offset = new(0, 4f);
-            emissionTrigger.size = new(1, 7.5f);
-        } 
+        if (!currentlyEmitting && !currentPlanet.movesTargets) {
+            emissionTrigger.enabled = false;
+        } else {
+            emissionTrigger.enabled = true;
 
-        if (currentPlanet.particlePrefab != null) {
-            if (!particleInstances.TryGetValue(currentPlanet, out var instance)) {
-                instance = Instantiate(currentPlanet.particlePrefab, transform);
-                particleInstances[currentPlanet] = instance;
-            } instance.SetActive(true);
-            activeParticleInstance = instance;
+            if (currentlyEmitting) {
+                emissionTrigger.offset = new(0, 2.5f);
+                emissionTrigger.size = new(1, 5f);
+            }
+
+            if (currentPlanet.movesTargets) {
+                emissionTrigger.offset = new(0, 4f);
+                emissionTrigger.size = new(1, 7.5f);
+            }
+
+            if (currentPlanet.particlePrefab != null) {
+                if (!particleInstances.TryGetValue(currentPlanet, out var instance)) {
+                    instance = Instantiate(currentPlanet.particlePrefab, transform);
+                    particleInstances[currentPlanet] = instance;
+                }
+                instance.SetActive(true);
+                activeParticleInstance = instance;
+            }
+        }
+
+        if (wasEmitting != currentlyEmitting) {
+            foreach (var target in activeTargets) {
+                if (currentlyEmitting)
+                    target.ApplyInfluence(this, currentPlanet.heat, currentPlanet.humidity, currentPlanet.atmosphere);
+                else
+                    target.RemoveInfluence(this);
+            }
         }
     }
 
@@ -173,7 +188,6 @@ public class GamePlanet : MonoBehaviour {
             hu += hum;
             at += atm;
         } ApplyTraits(he, hu, at);
-        UpdateEmissions();
     }
 
     public void ApplyInfluence(object source, int heat, int humidity, int atmosphere) {

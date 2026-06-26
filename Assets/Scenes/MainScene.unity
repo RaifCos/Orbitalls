@@ -3581,6 +3581,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &527975183
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 527975185}
+  - component: {fileID: 527975184}
+  m_Layer: 0
+  m_Name: Level 18
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &527975184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527975183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5afdafedb505a0428c29322dad89dcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelTransition
+  slideSpeed: 15
+  edge: 30
+--- !u!4 &527975185
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527975183}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &532807246
 GameObject:
   m_ObjectHideFlags: 0
@@ -5075,6 +5121,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &680410028 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4690379590046147056, guid: f42a88ad5ea31fe45a7f5eaf4dd99c54, type: 3}
+  m_PrefabInstance: {fileID: 1174676671}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &685971453
 GameObject:
   m_ObjectHideFlags: 0
@@ -7794,7 +7845,7 @@ PrefabInstance:
     - target: {fileID: 1774104716604186539, guid: b6e565e9aa0c1424e9b28bdc371c6785, type: 3}
       propertyPath: parentPlanet
       value: 
-      objectReference: {fileID: 951260211}
+      objectReference: {fileID: 680410028}
     - target: {fileID: 2105425413350848743, guid: b6e565e9aa0c1424e9b28bdc371c6785, type: 3}
       propertyPath: m_Size.y
       value: 7.5
@@ -8354,7 +8405,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1154181795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20748,4 +20799,5 @@ SceneRoots:
   - {fileID: 532807248}
   - {fileID: 1031283513}
   - {fileID: 1154181796}
+  - {fileID: 527975185}
   - {fileID: 7720375}
