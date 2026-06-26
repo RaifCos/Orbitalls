@@ -12,13 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c7444719c990b4ab63dbd1fc778763, type: 3}
   m_Name: 15
   m_EditorClassIdentifier: Assembly-CSharp::Planet
+  isHome: 0
   sprites:
   - {fileID: -7922584989192927078, guid: 3c0fc669c3628e84f8eba821484ec21c, type: 3}
   - {fileID: 6854764079206524148, guid: 3c0fc669c3628e84f8eba821484ec21c, type: 3}
   - {fileID: 8142302503676521560, guid: 3c0fc669c3628e84f8eba821484ec21c, type: 3}
   - {fileID: -1978185782412955714, guid: 3c0fc669c3628e84f8eba821484ec21c, type: 3}
   animationSpeed: 48
+  particlePrefab: {fileID: 6045164908155622727, guid: fd81e499ac88e7747ab53264d6a3560c, type: 3}
   hasEmissions: 0
   heat: 0
   humidity: 0
   atmosphere: 0
+  movesTargets: 1
+  movementForce: 2

@@ -9,6 +9,7 @@ public class VisualManager : MonoBehaviour {
     [SerializeField] private RectTransform creditUI;
     [SerializeField] private int slideSpeed;
     [SerializeField] private float uiSlideTarget;
+    [SerializeField] private BackgroundAnimation bgAnimator;
     private bool isSliding = false;
     private bool isCredits = false;
 
@@ -23,6 +24,8 @@ public class VisualManager : MonoBehaviour {
         if (!isSliding) StartCoroutine(SlideMenu());
     }
 
+    public void SlideBackground() { bgAnimator.StartSliding(); }
+
     IEnumerator SlideMenu() {
         isSliding = true;
         RectTransform targetUI = isCredits ? creditUI : titleUI;
@@ -31,10 +34,7 @@ public class VisualManager : MonoBehaviour {
             yield return null;
         } 
 
-        if (!isCredits) {
-            GameManager.instance.StartGame();
-            titleScreen.SetActive(false);
-        } 
+        if (!isCredits) { titleScreen.SetActive(false); } 
         
         isSliding = false;
     }

@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public static GameplayManager gameplayManager;
     public static VisualManager visualManager;
+    public static GalleryManager galleryManager;
 
     [Header("Game Data")]
     public bool isPlaying = false;
@@ -79,8 +80,11 @@ public class GameManager : MonoBehaviour {
 
     public void StartGame() {
         currentLevel = 0;
+        visualManager.StartSliding();
         levels[currentLevel].SetActive(true);
     }
+
+    public void ResetLevel() => levels[currentLevel].GetComponent<LevelTransition>().ResetLevel();
 
     public IEnumerator LevelWin(Vector3 winningPosition) {
         if (isPlaying == true) {
