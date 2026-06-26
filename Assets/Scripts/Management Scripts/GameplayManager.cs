@@ -6,6 +6,7 @@ public class GameplayManager : MonoBehaviour {
     [Header("Player Inputs")]
     [SerializeField] private InputAction planetSpin;
     [SerializeField] private InputAction planetOrbit;
+    [SerializeField] private InputAction resetAction;
 
     [Header("Planet Speeds")]
     [SerializeField] private float planetSpinSpeed;
@@ -21,11 +22,16 @@ public class GameplayManager : MonoBehaviour {
         clickLayer = LayerMask.GetMask("Planet");    
     }
 
-    private void OnEnable()  { planetSpin.Enable();  planetOrbit.Enable();  }
-    private void OnDisable() { planetSpin.Disable(); planetOrbit.Disable(); }
+    private void OnEnable()  { planetSpin.Enable();  planetOrbit.Enable(); resetAction.Enable(); }
+    private void OnDisable() { planetSpin.Disable(); planetOrbit.Disable(); resetAction.Disable(); }
 
     private void Update() {
         if (!GameManager.instance.isPlaying) { return; }
+
+        if (resetAction.WasPressedThisFrame()) { 
+            Debug.Log("Gyar");
+            GameManager.instance.ResetLevel();
+        }
 
         if (Mouse.current.leftButton.wasPressedThisFrame) {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());

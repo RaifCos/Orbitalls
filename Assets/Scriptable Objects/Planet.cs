@@ -7,12 +7,19 @@ public class Planet : ScriptableObject {
     [Header("Visuals")]
     public Sprite[] sprites;
     public int animationSpeed = 48;
+    public GameObject particlePrefab;
 
     [Header("Emission Traits")]
     public bool hasEmissions;
     public int heat;
     public int humidity;
     public int atmosphere;
-    public GameObject particlePrefab;
+
+    [Header("Pushy Traits")]
+    public bool movesTargets = false;
+    public float movementForce;
+
+    [Header("Propagate Traits")]
+    public bool propagatesHeat;
 
 }

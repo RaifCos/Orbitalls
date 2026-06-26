@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3918935157807899369}
   - component: {fileID: -6177060931372519411}
   m_Layer: 0
-  m_Name: wind
+  m_Name: inwardWind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

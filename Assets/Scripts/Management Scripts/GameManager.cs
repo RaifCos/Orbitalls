@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour {
             { ( 0,  0, -1), new PlanetData(12, false, false, planetObjects[12]) }, // Earth (Dull)
             { ( 0,  0,  0), new PlanetData(13, false, false, planetObjects[13]) }, // Earth
             { ( 0,  0,  1), new PlanetData(14, false, false, planetObjects[14]) }, // Earth (Toxic)
-            { ( 0,  1, -1), new PlanetData(15, false, false, planetObjects[15]) }, // Serious
+            { ( 0,  1, -1), new PlanetData(15, false, false, planetObjects[15]) }, // Seri1ous
             { ( 0,  1,  0), new PlanetData(16, false, false, planetObjects[16]) }, // Earth (Submerged)
             { ( 0,  1,  1), new PlanetData(17, false, false, planetObjects[17]) }, // Storm
             { ( 1, -1, -1), new PlanetData(18, false, false, planetObjects[18]) }, // Sand
@@ -79,8 +79,11 @@ public class GameManager : MonoBehaviour {
 
     public void StartGame() {
         currentLevel = 0;
+        visualManager.StartSliding();
         levels[currentLevel].SetActive(true);
     }
+
+    public void ResetLevel() => levels[currentLevel].GetComponent<LevelTransition>().ResetLevel();
 
     public IEnumerator LevelWin(Vector3 winningPosition) {
         if (isPlaying == true) {

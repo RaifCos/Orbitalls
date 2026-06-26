@@ -37,6 +37,7 @@ public class GamePlanet : MonoBehaviour {
     public int BaseAtmosphere => atmosphere;
 
     private int currentHeat, currentHumidity, currentAtmosphere;
+    private bool currentlyEmitting;
 
     private void Start() {
         transitionParticle = GetComponent<ParticleSystem>();
@@ -54,6 +55,7 @@ public class GamePlanet : MonoBehaviour {
 
     private void Update() {
         foreach (var planet in new List<GamePlanet>(candidates)) { ValidateView(planet); }
+        if (currentPlanet.movesTargets) foreach (var planet in new List<GamePlanet>(activeTargets)) { planet.ApplyMovement(gameObject, currentPlanet.movementForce); }
         if (!OrbitsPlanet) return;
 
         Vector2 parentPos = parentPlanet.transform.position;
@@ -91,10 +93,7 @@ public class GamePlanet : MonoBehaviour {
     }
 
     private void SetPlanet() {
-        if (newPlanet == null) {
-            Debug.LogWarning($"No planet definition found for climate values ({heat}, {humidity}, {atmosphere}).");
-            return;
-        }
+        if (newPlanet == null) { return; }
 
         if (activeParticleInstance != null) {
             activeParticleInstance.SetActive(false);
@@ -106,21 +105,36 @@ public class GamePlanet : MonoBehaviour {
 
         currentPlanet = newPlanet;
         spriteAnimation.ChangeAnimation(currentPlanet);
-        emissionTrigger.enabled = currentPlanet.hasEmissions;
 
-        if (currentPlanet.hasEmissions && currentPlanet.particlePrefab != null) {
+        UpdateEmissions();
+    }
+
+    private void UpdateEmissions() {
+        currentlyEmitting = currentPlanet.hasEmissions || (currentPlanet.propagatesHeat && currentHeat > BaseHeat);
+        if(!currentlyEmitting && !currentPlanet.movesTargets) { emissionTrigger.enabled = false; return; }
+        emissionTrigger.enabled = true;
+
+        if (currentlyEmitting) {
+            emissionTrigger.offset = new(0, 2.5f);
+            emissionTrigger.size = new(1, 5f);
+        }
+        
+        if (currentPlanet.movesTargets) {
+            emissionTrigger.offset = new(0, 4f);
+            emissionTrigger.size = new(1, 7.5f);
+        } 
+
+        if (currentPlanet.particlePrefab != null) {
             if (!particleInstances.TryGetValue(currentPlanet, out var instance)) {
                 instance = Instantiate(currentPlanet.particlePrefab, transform);
                 particleInstances[currentPlanet] = instance;
-            }
-            instance.SetActive(true);
+            } instance.SetActive(true);
             activeParticleInstance = instance;
         }
     }
 
     #endregion
     #region Planet Emission Updates
-
 
     private void ValidateView(GamePlanet planet) {
         Vector2 origin = transform.position;
@@ -144,10 +158,10 @@ public class GamePlanet : MonoBehaviour {
         if (active == wasActive) return;
         if (active) {
             activeTargets.Add(planet);
-            planet.ApplyInfluence(this, currentPlanet.heat, currentPlanet.humidity, currentPlanet.atmosphere);
+            if (currentlyEmitting) planet.ApplyInfluence(this, currentPlanet.heat, currentPlanet.humidity, currentPlanet.atmosphere);
         } else {
             activeTargets.Remove(planet);
-            planet.RemoveInfluence(this);
+            if (currentlyEmitting) planet.RemoveInfluence(this);
         }
     }
 
@@ -158,6 +172,7 @@ public class GamePlanet : MonoBehaviour {
             hu += hum;
             at += atm;
         } ApplyTraits(he, hu, at);
+        UpdateEmissions();
     }
 
     public void ApplyInfluence(object source, int heat, int humidity, int atmosphere) {
@@ -166,6 +181,20 @@ public class GamePlanet : MonoBehaviour {
     }
 
     public void RemoveInfluence(object source) { if (persistedInfluences.Remove(source)) RecalculateAndApply(); }
+
+    #endregion
+    #region Planet Movement Updates
+
+    public void ApplyMovement(GameObject source, float speed) {
+        var heading = transform.position - source.transform.position;
+        var distance = heading.magnitude;
+        var direction = heading / distance;
+
+        if (speed > 0 || distance > 4f) { transform.position += speed * Time.deltaTime * direction; }
+    }
+
+    #endregion
+    #region Trigger Checks
 
     private void OnTriggerEnter2D(Collider2D other) {
     if (other is CircleCollider2D && other.TryGetComponent<GamePlanet>(out var planet))
