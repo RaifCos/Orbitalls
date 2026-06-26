@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public static GameplayManager gameplayManager;
     public static VisualManager visualManager;
+    public static GalleryManager galleryManager;
 
     [Header("Game Data")]
     public bool isPlaying = false;

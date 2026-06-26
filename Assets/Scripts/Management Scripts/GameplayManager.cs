@@ -7,6 +7,7 @@ public class GameplayManager : MonoBehaviour {
     [SerializeField] private InputAction planetSpin;
     [SerializeField] private InputAction planetOrbit;
     [SerializeField] private InputAction resetAction;
+    [SerializeField] private InputAction galleryAction;
 
     [Header("Planet Speeds")]
     [SerializeField] private float planetSpinSpeed;
@@ -16,22 +17,30 @@ public class GameplayManager : MonoBehaviour {
     private GameObject selectedPlanet;
     private GamePlanet selectedPlanetComponent;
     private int clickLayer;
+
+    [Header("Gallery Stuff")]
+    [SerializeField] private GameObject galleryCanvas;
+    private bool galleryOpen = false;
     
     private void Awake() { 
         GameManager.gameplayManager = this;
         clickLayer = LayerMask.GetMask("Planet");    
     }
 
-    private void OnEnable()  { planetSpin.Enable();  planetOrbit.Enable(); resetAction.Enable(); }
-    private void OnDisable() { planetSpin.Disable(); planetOrbit.Disable(); resetAction.Disable(); }
+    private void OnEnable()  { planetSpin.Enable();  planetOrbit.Enable(); resetAction.Enable(); galleryAction.Enable(); }
+    private void OnDisable() { planetSpin.Disable(); planetOrbit.Disable(); resetAction.Disable(); galleryAction.Disable(); }
 
     private void Update() {
         if (!GameManager.instance.isPlaying) { return; }
 
-        if (resetAction.WasPressedThisFrame()) { 
-            Debug.Log("Gyar");
-            GameManager.instance.ResetLevel();
+        if (galleryAction.WasPressedThisFrame()) { 
+            galleryOpen = !galleryOpen;
+            galleryCanvas.SetActive(galleryOpen); 
         }
+
+        if (galleryOpen) return;
+
+        if (resetAction.WasPressedThisFrame()) { GameManager.instance.ResetLevel(); }
 
         if (Mouse.current.leftButton.wasPressedThisFrame) {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());

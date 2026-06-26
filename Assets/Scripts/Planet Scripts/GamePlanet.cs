@@ -107,6 +107,7 @@ public class GamePlanet : MonoBehaviour {
         spriteAnimation.ChangeAnimation(currentPlanet);
 
         UpdateEmissions();
+        GameManager.galleryManager.UnlockEntry(GameManager.instance.GetPlanetIndex(currentHeat, currentHumidity, currentAtmosphere));
     }
 
     private void UpdateEmissions() {
