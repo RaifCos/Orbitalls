@@ -86,6 +86,8 @@ public class GameManager : MonoBehaviour {
         currentLevel = 0;
         visualManager.StartSliding();
         levels[currentLevel].SetActive(true);
+        visualManager.SlideBackground();
+        StartCoroutine(visualManager.LevelText(0));
     }
 
     public void ResetLevel() => levels[currentLevel].GetComponent<LevelTransition>().ResetLevel();
@@ -106,6 +108,8 @@ public class GameManager : MonoBehaviour {
         if (currentLevel < levels.Length - 1) {
             currentLevel++;
             levels[currentLevel].SetActive(true);
+            visualManager.SlideBackground();
+            StartCoroutine(visualManager.LevelText(currentLevel));
             if (currentLevel == 8) { StartCoroutine(musicManager.FadeMusicIn(1)); }
             if (currentLevel == 16) { StartCoroutine(musicManager.FadeMusicIn(2)); }
         } else {  visualManager.CreditRoll(); }
