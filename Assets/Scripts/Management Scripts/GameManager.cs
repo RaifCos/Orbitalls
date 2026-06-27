@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
     private static WaitForSeconds _waitForSeconds2 = new(2f);
     public static GameManager instance;
     public static GameplayManager gameplayManager;
+    public static MusicManager musicManager;
     public static VisualManager visualManager;
     public static GalleryManager galleryManager;
 
@@ -70,7 +71,10 @@ public class GameManager : MonoBehaviour {
         };
     }
 
-    void Start() { pS = particleObject.GetComponent<ParticleSystem>(); } 
+    void Start() { 
+        pS = particleObject.GetComponent<ParticleSystem>();
+        musicManager.StartPlaying();    
+    } 
 
     public int GetPlanetIndex(int x, int y, int z) => planetDict[(Mathf.Clamp(x, -1, 1), Mathf.Clamp(y, -1, 1), Mathf.Clamp(z, -1, 1))].index;
 
@@ -102,6 +106,8 @@ public class GameManager : MonoBehaviour {
         if (currentLevel < levels.Length - 1) {
             currentLevel++;
             levels[currentLevel].SetActive(true);
+            if (currentLevel == 8) { StartCoroutine(musicManager.FadeMusicIn(1)); }
+            if (currentLevel == 16) { StartCoroutine(musicManager.FadeMusicIn(2)); }
         } else {  visualManager.CreditRoll(); }
     }
 }

@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
-
 [RequireComponent(typeof(ParticleSystem))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(SpriteAnimation))]
+
+[RequireComponent(typeof(OrbitIndicator))]
 public class GamePlanet : MonoBehaviour {
 
     [Header("Default Climate")]
