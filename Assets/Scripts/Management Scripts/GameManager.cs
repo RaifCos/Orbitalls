@@ -110,8 +110,8 @@ public class GameManager : MonoBehaviour {
             levels[currentLevel].SetActive(true);
             visualManager.SlideBackground();
             StartCoroutine(visualManager.LevelText(currentLevel));
-            if (currentLevel == 8) { StartCoroutine(musicManager.FadeMusicIn(1)); }
-            if (currentLevel == 16) { StartCoroutine(musicManager.FadeMusicIn(2)); }
+            if (currentLevel == 7) { StartCoroutine(musicManager.FadeMusicIn(1)); }
+            if (currentLevel == 15) { StartCoroutine(musicManager.FadeMusicIn(2)); }
         } else {  visualManager.CreditRoll(); }
     }
 }
