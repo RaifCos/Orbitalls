@@ -74,18 +74,12 @@ public class VisualManager : MonoBehaviour {
     }
 
     public IEnumerator LevelText(int level) {
+        levelText.text = "";
         yield return _waitForSeconds2;
         string target = levelStrings[level];
-        levelText.text = "";
-        levelText.alpha = 255f;
         foreach (char letter in target) {
 			levelText.text += letter;
 			yield return _waitForSeconds0_02;
 		} yield return _waitForSeconds4;
-        
-        while(levelText.alpha > 0f) {
-            levelText.alpha -= 2f;
-            yield return null;
-        }
     }
 }

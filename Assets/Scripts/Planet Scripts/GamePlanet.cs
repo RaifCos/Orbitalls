@@ -118,12 +118,12 @@ public class GamePlanet : MonoBehaviour {
 
         if (currentlyEmitting) {
             emissionTrigger.offset = new(0, 2.5f);
-            emissionTrigger.size = new(1, 5f);
+            emissionTrigger.size = new(0.1f, 5f);
         }
         
         if (currentPlanet.movesTargets) {
             emissionTrigger.offset = new(0, 4f);
-            emissionTrigger.size = new(1, 7.5f);
+            emissionTrigger.size = new(0.1f, 7.5f);
         } 
 
         if (currentPlanet.particlePrefab != null) {
@@ -144,15 +144,19 @@ public class GamePlanet : MonoBehaviour {
         Vector2 dir = (target - origin).normalized;
         float dist = Vector2.Distance(origin, target);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, dist, planetMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(
+            origin, dir, dist, planetMask, -Mathf.Infinity, Mathf.Infinity
+        );
 
         bool blocked = false;
         foreach (var hit in hits) {
             if (hit.collider.gameObject == gameObject) continue;
             if (hit.collider.gameObject == planet.gameObject) continue;
+            if (hit.collider.isTrigger) continue;
             blocked = true;
             break;
-        } SetActiveTarget(planet, !blocked);
+        }
+        SetActiveTarget(planet, !blocked);
     }
 
     private void SetActiveTarget(GamePlanet planet, bool active) {
