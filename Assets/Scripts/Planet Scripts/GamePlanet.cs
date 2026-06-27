@@ -100,7 +100,7 @@ public class GamePlanet : MonoBehaviour {
             activeParticleInstance = null;
         }
 
-        if (newPlanet.isHome) { StartCoroutine(GameManager.instance.LevelWin(transform.position)); }
+        if (newPlanet.isHome && GameManager.instance.isPlaying) { StartCoroutine(GameManager.instance.LevelWin(transform.position)); }
         else { transitionParticle.Play(); }
 
         currentPlanet = newPlanet;
