@@ -52,6 +52,7 @@ public class VisualManager : MonoBehaviour {
     }
 
     public void CreditRoll() {
+        levelText.text = "";
         isCredits = true;
         creditScreen.SetActive(true);
         creditUI.anchoredPosition = Vector2.left * uiSlideTarget;
