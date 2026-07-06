@@ -17,6 +17,7 @@ public class GameplayManager : MonoBehaviour {
     private GameObject selectedPlanet;
     private GamePlanet selectedPlanetComponent;
     private int clickLayer;
+    [SerializeField] private GameObject selectedLight;
 
     [Header("Gallery Stuff")]
     [SerializeField] private GameObject galleryCanvas;
@@ -52,7 +53,7 @@ public class GameplayManager : MonoBehaviour {
             }
         }
 
-        if (selectedPlanet != null) {
+        if (selectedPlanetComponent != null) {
             float spinInput = planetSpin.ReadValue<float>();
             
             if (spinInput != 0f) // Spin planet around its own axis.
@@ -63,8 +64,18 @@ public class GameplayManager : MonoBehaviour {
                 if (orbitInput != 0f)
                     selectedPlanetComponent.DriveOrbit(orbitInput * planetOrbitSpeed, Time.deltaTime);
             }
+
+            selectedLight.transform.position = selectedPlanet.transform.position;
         }
     }
 
+    private void LateUpdate() { GamePlanet.ResolveDirtyPlanets(); }
+
     public void SelectPlanet(GameObject planet) => selectedPlanet = planet;
+
+    public void ResetSelection() {
+        selectedPlanet = null;
+        selectedPlanetComponent = null;
+        selectedLight.transform.position = Vector3.up * 50f;
+    }
 }
