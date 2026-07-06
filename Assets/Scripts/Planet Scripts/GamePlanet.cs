@@ -31,6 +31,10 @@ public class GamePlanet : MonoBehaviour {
     private readonly HashSet<GamePlanet> activeTargets = new();
     private readonly Dictionary<object, (int heat, int humidity, int atmosphere)> persistedInfluences = new();
 
+    [Header("'Dirty' Indicator")]
+    private static readonly HashSet<GamePlanet> dirtyPlanets = new();
+    private bool queuedForRecalc;
+
     private float orbitAngle;
     public bool OrbitsPlanet => parentPlanet != null;
     public int BaseHeat => heat;
@@ -113,7 +117,7 @@ public class GamePlanet : MonoBehaviour {
 
     private void UpdateEmissions() {
         currentlyEmitting = currentPlanet.hasEmissions || (currentPlanet.propagatesHeat && currentHeat > BaseHeat);
-        if(!currentlyEmitting && !currentPlanet.movesTargets) { emissionTrigger.enabled = false; return; }
+        if(!currentlyEmitting && !currentPlanet.movesTargets) { emissionTrigger.enabled = false; PushInfluenceToTargets(); return; }
         emissionTrigger.enabled = true;
 
         if (currentlyEmitting) {
@@ -132,6 +136,15 @@ public class GamePlanet : MonoBehaviour {
                 particleInstances[currentPlanet] = instance;
             } instance.SetActive(true);
             activeParticleInstance = instance;
+        }
+
+        PushInfluenceToTargets();
+    }
+
+    private void PushInfluenceToTargets() {
+        foreach (var planet in new List<GamePlanet>(activeTargets)) {
+            if (currentlyEmitting) planet.ApplyInfluence(this, currentPlanet.heat, currentPlanet.humidity, currentPlanet.atmosphere);
+            else planet.RemoveInfluence(this);
         }
     }
 
@@ -182,11 +195,31 @@ public class GamePlanet : MonoBehaviour {
     }
 
     public void ApplyInfluence(object source, int heat, int humidity, int atmosphere) {
-        persistedInfluences[source] = (heat, humidity, atmosphere);
-        RecalculateAndApply();
+        var incoming = (heat, humidity, atmosphere);
+        if (persistedInfluences.TryGetValue(source, out var existing) && existing == incoming) return;
+        persistedInfluences[source] = incoming;
+        MarkDirty();
     }
 
-    public void RemoveInfluence(object source) { if (persistedInfluences.Remove(source)) RecalculateAndApply(); }
+    public void RemoveInfluence(object source) {
+        if (persistedInfluences.Remove(source)) MarkDirty();
+    } 
+
+    private void MarkDirty() {
+        if (queuedForRecalc) return;
+        queuedForRecalc = true;
+        dirtyPlanets.Add(this);
+    }
+
+    public static void ResolveDirtyPlanets() {
+        // Snapshot, since resolving one planet can dirty another mid-loop
+        var batch = new List<GamePlanet>(dirtyPlanets);
+        dirtyPlanets.Clear();
+        foreach (var planet in batch) {
+            planet.queuedForRecalc = false;
+            planet.RecalculateAndApply();
+        }
+    }
 
     #endregion
     #region Planet Movement Updates
