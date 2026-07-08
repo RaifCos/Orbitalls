@@ -7368,9 +7368,9 @@ MonoBehaviour:
   m_fontSize: 135
   m_fontSizeBase: 135
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 135
   m_fontStyle: 32
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -14858,9 +14858,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   clips:
-  - {fileID: 8300000, guid: fa8fb7abba129b84b8b68f03093f17ac, type: 3}
-  - {fileID: 8300000, guid: 51ad17f0a84a7344aa0c4d5e2820f1c1, type: 3}
-  - {fileID: 8300000, guid: 31a2b05c336db8c4f9043aada03f2c2e, type: 3}
+  - {fileID: 8300000, guid: a183b93a81cb69d499ad72235d73d595, type: 3}
+  - {fileID: 8300000, guid: afedafcf82edfb843bcf9cdcb610f668, type: 3}
+  - {fileID: 8300000, guid: 3ae4c555ae71e1641aa6df194c6ea127, type: 3}
 --- !u!1001 &1395911628
 PrefabInstance:
   m_ObjectHideFlags: 0
