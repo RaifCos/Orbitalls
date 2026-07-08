@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour {
 
     public void NextLevel() {
         levels[currentLevel].GetComponent<LevelTransition>().ExitLevel();
+        gameplayManager.ResetSelection();
         if (currentLevel < levels.Length - 1) {
             currentLevel++;
             levels[currentLevel].SetActive(true);

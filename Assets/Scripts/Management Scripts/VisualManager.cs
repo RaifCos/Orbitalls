@@ -3,9 +3,9 @@ using UnityEngine;
 using TMPro;
 
 public class VisualManager : MonoBehaviour {
-    private static WaitForSeconds _waitForSeconds0_02 = new(0.02f);
-    private static WaitForSeconds _waitForSeconds2 = new(2f);
-    private static WaitForSeconds _waitForSeconds4 = new(4f);
+    private static readonly WaitForSeconds _waitForSeconds0_02 = new(0.02f);
+    private static readonly WaitForSeconds _waitForSeconds2 = new(2f);
+    private static readonly WaitForSeconds _waitForSeconds4 = new(4f);
     [SerializeField] private GameObject titleScreen;
     [SerializeField] private RectTransform titleUI;
     [SerializeField] private GameObject creditScreen;
@@ -18,7 +18,7 @@ public class VisualManager : MonoBehaviour {
     private bool isCredits = false;
 
     private readonly string[] levelStrings = {
-        "greetings explorer, welcome to space! select a planet using your MOUSE and spin it with the A/S keys. If the planet lies on an orbital line, you can move it around using W/D. You can also use your arrow keys.",
+        "greetings explorer, welcome to space! select a planet using your MOUSE and spin it with the A/D keys. If the planet lies on an orbatal line, you can move it around using W/S. You can also use your arrow keys.",
         "the aim of our journey is to create as many places as we can to sustain life by rearranging the planets above. for example, that planet over there looks pretty hot, let's try blocking it from the sun.",
         "great job! there are other ways to change a planet's climate. this icy planet produces FROST, which can cool down any planets in their reach.",
         "experiment with different arrangements to discover new planets. press G to open the Gallery to keep track of the planets you've found.",
@@ -52,6 +52,7 @@ public class VisualManager : MonoBehaviour {
     }
 
     public void CreditRoll() {
+        levelText.text = "";
         isCredits = true;
         creditScreen.SetActive(true);
         creditUI.anchoredPosition = Vector2.left * uiSlideTarget;
