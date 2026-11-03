@@ -115,11 +115,15 @@ public class GameManager : MonoBehaviour {
             levels[currentLevel].SetActive(true);
             visualManager.SlideBackground();
             visualManager.ShowLevelText(currentLevel);
+
+            musicManager.SetMusicPhase(currentLevel < 7 ? 0 : (currentLevel <= 15 ? 1 : 2));
+
             if (currentLevel == 7) { StartCoroutine(musicManager.FadeMusicIn(1)); }
             if (currentLevel == 15) { StartCoroutine(musicManager.FadeMusicIn(2)); }
             if (currentLevel > highestLevel) {
                 highestLevel = currentLevel;
-                PlayerPrefs.SetInt("highestLevel", 0);
+                PlayerPrefs.SetInt("highestLevel", highestLevel);
+                PlayerPrefs.Save();
                 levelSelectManager.UpdateButtons(highestLevel + 1);
             }
         } else {  visualManager.CreditRoll(); }
@@ -129,9 +133,11 @@ public class GameManager : MonoBehaviour {
         gameplayManager.AlternateMenus(0);
         if (lvl == currentLevel) { return; }
 
+        
         gameplayManager.ResetSelection();
         levels[currentLevel].GetComponent<LevelTransition>().ExitLevel();
         currentLevel = lvl;
+        musicManager.SetMusicPhase(currentLevel < 7 ? 0 : (currentLevel <= 15 ? 1 : 2));
         levels[currentLevel].SetActive(true);
         visualManager.SlideBackground();
         visualManager.ShowLevelText(currentLevel);

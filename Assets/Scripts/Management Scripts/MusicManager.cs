@@ -10,6 +10,7 @@ public class MusicManager : MonoBehaviour
     private readonly AudioSource[] sources = new AudioSource[3];
 
     private const double SCHEDULE_AHEAD_TIME = 1.0;
+    private int musicPhase = -1;
 
     void Awake() {
         GameManager.musicManager = this;
@@ -18,11 +19,7 @@ public class MusicManager : MonoBehaviour
             sources[i].playOnAwake = false;
             sources[i].loop = true;
         }
-
-        sources[0].volume = 1f;
-        sources[1].volume = 0f;
-        sources[2].volume = 0f;
-
+        SetMusicPhase(0);
         for (int i = 0; i < 3; i++) { sources[i].clip = clips[i]; }
     }
 
@@ -48,4 +45,25 @@ public class MusicManager : MonoBehaviour
         aS.volume = 0f;
     }
 
+    public void SetMusicPhase(int p) {
+        Debug.Log(p + " " + musicPhase);
+        if (p == musicPhase) return;
+        musicPhase = p;
+
+        StopAllCoroutines();
+        switch(musicPhase) {
+            case 0:
+                MuteMusic(1);
+                MuteMusic(2);
+                break;
+            case 1:
+                StartCoroutine(FadeMusicIn(1));
+                MuteMusic(2);
+                break;
+            case 2:
+                StartCoroutine(FadeMusicIn(1));
+                StartCoroutine(FadeMusicIn(2));
+                break;
+        }
+    }
 }
