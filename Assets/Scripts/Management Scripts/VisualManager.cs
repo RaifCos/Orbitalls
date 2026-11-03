@@ -16,6 +16,7 @@ public class VisualManager : MonoBehaviour {
     [SerializeField] private TMP_Text levelText;
     private bool isSliding = false;
     private bool isCredits = false;
+    private Coroutine levelTextCoroutine;
 
     private readonly string[] levelStrings = {
         "greetings explorer, welcome to space! select a planet using your MOUSE and spin it with the A/D keys. If the planet lies on an orbatal line, you can move it around using W/S. You can also use your arrow keys.",
@@ -62,6 +63,11 @@ public class VisualManager : MonoBehaviour {
 
     public void SlideBackground() { bgAnimator.StartSliding(); }
 
+    public void ShowLevelText(int level) {
+        if (levelTextCoroutine != null) { StopCoroutine(levelTextCoroutine); }
+        levelTextCoroutine = StartCoroutine(LevelText(level));
+    }
+
     IEnumerator SlideMenu() {
         isSliding = true;
         RectTransform targetUI = isCredits ? creditUI : titleUI;
@@ -81,6 +87,7 @@ public class VisualManager : MonoBehaviour {
         foreach (char letter in target) {
 			levelText.text += letter;
 			yield return _waitForSeconds0_02;
-		} yield return _waitForSeconds4;
+        } yield return _waitForSeconds4;
+        levelTextCoroutine = null;
     }
 }

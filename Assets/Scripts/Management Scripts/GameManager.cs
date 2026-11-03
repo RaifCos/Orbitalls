@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour {
         visualManager.StartSliding();
         levels[currentLevel].SetActive(true);
         visualManager.SlideBackground();
-        StartCoroutine(visualManager.LevelText(0));
+        visualManager.ShowLevelText(0);
     }
 
     public void ResetLevel() => levels[currentLevel].GetComponent<LevelTransition>().ResetLevel();
@@ -114,18 +114,19 @@ public class GameManager : MonoBehaviour {
             currentLevel++;
             levels[currentLevel].SetActive(true);
             visualManager.SlideBackground();
-            StartCoroutine(visualManager.LevelText(currentLevel));
+            visualManager.ShowLevelText(currentLevel);
             if (currentLevel == 7) { StartCoroutine(musicManager.FadeMusicIn(1)); }
             if (currentLevel == 15) { StartCoroutine(musicManager.FadeMusicIn(2)); }
             if (currentLevel > highestLevel) {
                 highestLevel = currentLevel;
                 PlayerPrefs.SetInt("highestLevel", 0);
-                levelSelectManager.UpdateButtons(highestLevel);
+                levelSelectManager.UpdateButtons(highestLevel + 1);
             }
         } else {  visualManager.CreditRoll(); }
     }
 
     public void SelectLevel(int lvl) {
+        gameplayManager.AlternateMenus(0);
         if (lvl == currentLevel) { return; }
 
         gameplayManager.ResetSelection();
@@ -133,6 +134,6 @@ public class GameManager : MonoBehaviour {
         currentLevel = lvl;
         levels[currentLevel].SetActive(true);
         visualManager.SlideBackground();
-        StartCoroutine(visualManager.LevelText(currentLevel));
+        visualManager.ShowLevelText(currentLevel);
     }
 }

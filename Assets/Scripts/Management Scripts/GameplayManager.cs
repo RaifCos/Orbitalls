@@ -74,7 +74,7 @@ public class GameplayManager : MonoBehaviour {
 
     private void LateUpdate() { GamePlanet.ResolveDirtyPlanets(); }
 
-    private void AlternateMenus(int menu) {
+    public void AlternateMenus(int menu) {
         currentMenu = menu;
         switch(menu) {
           case 0: // Return to Game
