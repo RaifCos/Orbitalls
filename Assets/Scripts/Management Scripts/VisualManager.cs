@@ -32,7 +32,7 @@ public class VisualManager : MonoBehaviour {
         "the glass planet concentrates any heat it receives and pushes it out forward, increasing your planatery reach.",
         "remember, we can block the head produced by the sun using by other planets.",
         "there's nothing in the rule book about two planets facing each other...",
-        "you're doing great, explorer. we're over halfway through our journey! things might start to get a bit more tricky...",
+        "if you want to backtrack and try another puzzle again, press ESCAPE to view the level select menu.",
         "don't forget to check the Gallery to help you out on your journey!",
         "another new discovery! it appears this planet has a gravatational pull so strong, it can yank other planets like it's nothing!",
         "be careful to keep everything balanced here! don't forget you can reset with the R key.",
