@@ -43,4 +43,9 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    public void MuteMusic(int phase) {
+        AudioSource aS = sources[phase];
+        aS.volume = 0f;
+    }
+
 }

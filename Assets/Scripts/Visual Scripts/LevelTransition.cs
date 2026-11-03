@@ -24,11 +24,13 @@ public class LevelTransition : MonoBehaviour {
         levelObjects = GetComponentsInChildren<Transform>();
         initTransforms = new TransformData[levelObjects.Length];
         t = GetComponent<Transform>();
-        t.position = new(edge, 0f, 0f);
-        currentTarget = 0f;
     }
 
-    private void OnEnable() { StartCoroutine(SlideLevel()); }
+    private void OnEnable() { 
+        t.position = new(edge, 0f, 0f);
+        currentTarget = 0f;
+        StartCoroutine(SlideLevel());
+    }
 
     public void ExitLevel() {
         currentTarget = -edge;

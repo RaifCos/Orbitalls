@@ -20,12 +20,14 @@ public class GameManager : MonoBehaviour {
     private static WaitForSeconds _waitForSeconds2 = new(2f);
     public static GameManager instance;
     public static GameplayManager gameplayManager;
+    public static LevelSelectManager levelSelectManager;
     public static MusicManager musicManager;
     public static VisualManager visualManager;
     public static GalleryManager galleryManager;
 
     [Header("Game Data")]
     public bool isPlaying = false;
+    public int highestLevel;
     public int currentLevel;
     [SerializeField] private GameObject[] levels;
 
@@ -74,6 +76,8 @@ public class GameManager : MonoBehaviour {
     void Start() { 
         pS = particleObject.GetComponent<ParticleSystem>();
         musicManager.StartPlaying();    
+        highestLevel = PlayerPrefs.GetInt("highestLevel", 0);
+        levelSelectManager.UpdateAllButtons(highestLevel); 
     } 
 
     public int GetPlanetIndex(int x, int y, int z) => planetDict[(Mathf.Clamp(x, -1, 1), Mathf.Clamp(y, -1, 1), Mathf.Clamp(z, -1, 1))].index;
@@ -113,6 +117,19 @@ public class GameManager : MonoBehaviour {
             StartCoroutine(visualManager.LevelText(currentLevel));
             if (currentLevel == 7) { StartCoroutine(musicManager.FadeMusicIn(1)); }
             if (currentLevel == 15) { StartCoroutine(musicManager.FadeMusicIn(2)); }
+            if (currentLevel > highestLevel) {
+                highestLevel = currentLevel;
+                PlayerPrefs.SetInt("highestLevel", 0);
+            }
         } else {  visualManager.CreditRoll(); }
+    }
+
+    public void SelectLevel(int lvl) {
+        gameplayManager.ResetSelection();
+        levels[currentLevel].GetComponent<LevelTransition>().ExitLevel();
+        currentLevel = lvl;
+        levels[currentLevel].SetActive(true);
+        visualManager.SlideBackground();
+        StartCoroutine(visualManager.LevelText(currentLevel));
     }
 }
