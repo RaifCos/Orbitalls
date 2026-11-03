@@ -36,6 +36,7 @@ public class GamePlanet : MonoBehaviour {
     private bool queuedForRecalc;
 
     private float orbitAngle;
+    private InitialState initialState;
     public bool OrbitsPlanet => parentPlanet != null;
     public int BaseHeat => heat;
     public int BaseHumidity => humidity;
@@ -43,6 +44,15 @@ public class GamePlanet : MonoBehaviour {
 
     private int currentHeat, currentHumidity, currentAtmosphere;
     private bool currentlyEmitting;
+
+    private sealed class InitialState {
+        public int heat, humidity, atmosphere;
+        public Planet planet;
+        public float orbitAngle;
+        public readonly Dictionary<object, (int heat, int humidity, int atmosphere)> influences = new();
+        public readonly HashSet<GamePlanet> candidates = new();
+        public readonly HashSet<GamePlanet> activeTargets = new();
+    }
 
     private void Start() {
         transitionParticle = GetComponent<ParticleSystem>();
@@ -97,7 +107,42 @@ public class GamePlanet : MonoBehaviour {
         if (currentPlanet != newPlanet) { SetPlanet(); }
     }
 
-    private void SetPlanet() {
+    public void CaptureInitialState() {
+        initialState = new InitialState {
+            heat = currentHeat,
+            humidity = currentHumidity,
+            atmosphere = currentAtmosphere,
+            planet = currentPlanet,
+            orbitAngle = orbitAngle
+        };
+
+        foreach (var influence in persistedInfluences) { initialState.influences.Add(influence.Key, influence.Value); }
+        initialState.candidates.UnionWith(candidates);
+        initialState.activeTargets.UnionWith(activeTargets);
+    }
+
+    public void RestoreInitialState() {
+        if (initialState == null) { return; }
+
+        currentHeat = initialState.heat;
+        currentHumidity = initialState.humidity;
+        currentAtmosphere = initialState.atmosphere;
+        orbitAngle = initialState.orbitAngle;
+        newPlanet = initialState.planet;
+
+        persistedInfluences.Clear();
+        foreach (var influence in initialState.influences) { persistedInfluences.Add(influence.Key, influence.Value); }
+        candidates.Clear();
+        candidates.UnionWith(initialState.candidates);
+        activeTargets.Clear();
+        activeTargets.UnionWith(initialState.activeTargets);
+
+        queuedForRecalc = false;
+        dirtyPlanets.Remove(this);
+        SetPlanet(false, false);
+    }
+
+    private void SetPlanet(bool checkWin = true, bool updateTargets = true) {
         if (newPlanet == null) { return; }
 
         if (activeParticleInstance != null) {
@@ -105,19 +150,19 @@ public class GamePlanet : MonoBehaviour {
             activeParticleInstance = null;
         }
 
-        if (newPlanet.isHome && GameManager.instance.isPlaying) { StartCoroutine(GameManager.instance.LevelWin(transform.position)); }
+        if (checkWin && newPlanet.isHome && GameManager.instance.isPlaying) { StartCoroutine(GameManager.instance.LevelWin(transform.position)); }
         else { transitionParticle.Play(); }
 
         currentPlanet = newPlanet;
         spriteAnimation.ChangeAnimation(currentPlanet);
 
-        UpdateEmissions();
+        UpdateEmissions(updateTargets);
         GameManager.galleryManager.UnlockEntry(GameManager.instance.GetPlanetIndex(currentHeat, currentHumidity, currentAtmosphere));
     }
 
-    private void UpdateEmissions() {
+    private void UpdateEmissions(bool updateTargets = true) {
         currentlyEmitting = currentPlanet.hasEmissions || (currentPlanet.propagatesHeat && currentHeat > BaseHeat);
-        if(!currentlyEmitting && !currentPlanet.movesTargets) { emissionTrigger.enabled = false; PushInfluenceToTargets(); return; }
+        if(!currentlyEmitting && !currentPlanet.movesTargets) { emissionTrigger.enabled = false; if (updateTargets) PushInfluenceToTargets(); return; }
         emissionTrigger.enabled = true;
 
         if (currentlyEmitting) {
@@ -138,7 +183,7 @@ public class GamePlanet : MonoBehaviour {
             activeParticleInstance = instance;
         }
 
-        PushInfluenceToTargets();
+        if (updateTargets) PushInfluenceToTargets();
     }
 
     private void PushInfluenceToTargets() {

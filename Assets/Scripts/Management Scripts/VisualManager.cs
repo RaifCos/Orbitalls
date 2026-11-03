@@ -16,6 +16,7 @@ public class VisualManager : MonoBehaviour {
     [SerializeField] private TMP_Text levelText;
     private bool isSliding = false;
     private bool isCredits = false;
+    private Coroutine levelTextCoroutine;
 
     private readonly string[] levelStrings = {
         "greetings explorer, welcome to space! select a planet using your MOUSE and spin it with the A/D keys. If the planet lies on an orbatal line, you can move it around using W/S. You can also use your arrow keys.",
@@ -31,7 +32,7 @@ public class VisualManager : MonoBehaviour {
         "the glass planet concentrates any heat it receives and pushes it out forward, increasing your planetary reach.",
         "remember, we can block the heat produced by the sun using other planets.",
         "there's nothing in the rule book about two planets facing each other...",
-        "you're doing great, explorer. we're over halfway through our journey! things might start to get a bit more tricky...",
+        "if you want to backtrack and try another puzzle again, press ESCAPE to view the level select menu.",
         "don't forget to check the Gallery to help you out on your journey!",
         "be careful to keep everything balanced here! don't forget you can reset with the R key.",
         "another new discovery! it appears this planet has a gravitational pull so strong, it can yank other planets like it's nothing!",
@@ -62,6 +63,11 @@ public class VisualManager : MonoBehaviour {
 
     public void SlideBackground() { bgAnimator.StartSliding(); }
 
+    public void ShowLevelText(int level) {
+        if (levelTextCoroutine != null) { StopCoroutine(levelTextCoroutine); }
+        levelTextCoroutine = StartCoroutine(LevelText(level));
+    }
+
     IEnumerator SlideMenu() {
         isSliding = true;
         RectTransform targetUI = isCredits ? creditUI : titleUI;
@@ -81,6 +87,7 @@ public class VisualManager : MonoBehaviour {
         foreach (char letter in target) {
 			levelText.text += letter;
 			yield return _waitForSeconds0_02;
-		} yield return _waitForSeconds4;
+        } yield return _waitForSeconds4;
+        levelTextCoroutine = null;
     }
 }

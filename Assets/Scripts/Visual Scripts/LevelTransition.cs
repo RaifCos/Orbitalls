@@ -10,6 +10,7 @@ public class LevelTransition : MonoBehaviour {
     private Transform t;
     private Transform[] levelObjects;
     private TransformData[] initTransforms; 
+    private bool initialStateCaptured;
 
     private struct TransformData {
         public Vector3 position;
@@ -24,11 +25,15 @@ public class LevelTransition : MonoBehaviour {
         levelObjects = GetComponentsInChildren<Transform>();
         initTransforms = new TransformData[levelObjects.Length];
         t = GetComponent<Transform>();
-        t.position = new(edge, 0f, 0f);
-        currentTarget = 0f;
     }
 
-    private void OnEnable() { StartCoroutine(SlideLevel()); }
+    private void OnEnable() { 
+        t.position = new(edge, 0f, 0f);
+        currentTarget = 0f;
+        StartCoroutine(SlideLevel());
+    }
+
+    private void OnDisable() => ResetLevel();
 
     public void ExitLevel() {
         currentTarget = -edge;
@@ -40,10 +45,14 @@ public class LevelTransition : MonoBehaviour {
         while (t.position.x > currentTarget) {
             t.position += slideSpeed * Time.deltaTime * Vector3.left;
             yield return null;
-        } if (currentTarget == -edge) gameObject.SetActive(false);
+        } yield return new WaitForEndOfFrame();
+        if (currentTarget == -edge) gameObject.SetActive(false);
         else {
-            for (int i = 0; i < levelObjects.Length; i++) { initTransforms[i] = new TransformData(levelObjects[i]); }
-            GameManager.instance.isPlaying = true;
+            if (!initialStateCaptured) {
+                for (int i = 0; i < levelObjects.Length; i++) { initTransforms[i] = new TransformData(levelObjects[i]); }
+                foreach (var planet in GetComponentsInChildren<GamePlanet>(true)) { planet.CaptureInitialState(); }
+                initialStateCaptured = true;
+            } GameManager.instance.isPlaying = true;
         }
     }
 
@@ -51,6 +60,6 @@ public class LevelTransition : MonoBehaviour {
         Debug.Log("reset");
         for (int i = 0; i < initTransforms.Length; i++) {
             levelObjects[i].SetPositionAndRotation(initTransforms[i].position, initTransforms[i].rotation);
-        }
+        } foreach (var planet in GetComponentsInChildren<GamePlanet>(true)) { planet.RestoreInitialState(); }
     }
 }
