@@ -120,11 +120,14 @@ public class GameManager : MonoBehaviour {
             if (currentLevel > highestLevel) {
                 highestLevel = currentLevel;
                 PlayerPrefs.SetInt("highestLevel", 0);
+                levelSelectManager.UpdateButtons(highestLevel);
             }
         } else {  visualManager.CreditRoll(); }
     }
 
     public void SelectLevel(int lvl) {
+        if (lvl == currentLevel) { return; }
+
         gameplayManager.ResetSelection();
         levels[currentLevel].GetComponent<LevelTransition>().ExitLevel();
         currentLevel = lvl;

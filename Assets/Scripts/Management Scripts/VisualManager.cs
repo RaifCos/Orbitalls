@@ -36,7 +36,7 @@ public class VisualManager : MonoBehaviour {
         "another new discovery! it appears this planet has a gravatational pull so strong, it can yank other planets like it's nothing!",
         "be careful to keep everything balanced here! don't forget you can reset with the R key.",
         "the universe really is a magnificent place, although it definitely can be a bit scary, we've seen frozen giants of gas and ice, flaming balls of plasma, and everything in between...",
-        "... and as we've seen on this journey, the universe doesn't seem to take heed of how inhospitable it can be...",
+        "...and as we've seen on this journey, the universe doesn't seem to take heed of how inhospitable it can be...",
         "...this is a scary thought to have, just how cold and indiffernt the universe is. You nearly start to wonder- are we the only ones here?",
         "However, there is a certain beauty to the way the universe works, and we can see it in little palce we like to call... home!",
         "through no action of our own, our planet is positioned perfectly in this universe just where we need it, no clicking or arrow keys required. and it's beautiful...",

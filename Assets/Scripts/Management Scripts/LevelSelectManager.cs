@@ -9,15 +9,13 @@ public class LevelSelectManager : MonoBehaviour {
     private void Awake() { 
         GameManager.levelSelectManager = this;  
     }
-    
-    private void UpdateButton(int lvl, int highest) {
-        levelButtons[lvl].interactable = lvl <= highest;
-    }
 
     public void UpdateAllButtons(int highest) {
-        for (int i = 0; i < levelButtons.Length; i++) {
-            UpdateButton(i, highest);
-        }
+        for (int i = 0; i < levelButtons.Length; i++) { levelButtons[i].interactable = i <= highest; }
+    }
+
+    public void UpdateButtons(int highest) {
+        for (int i = 0; i < highest; i++) { levelButtons[i].interactable = true; }
     }
 
     public void SelectLevel(int lvl) {

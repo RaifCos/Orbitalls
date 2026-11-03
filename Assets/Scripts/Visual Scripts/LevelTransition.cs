@@ -32,6 +32,8 @@ public class LevelTransition : MonoBehaviour {
         StartCoroutine(SlideLevel());
     }
 
+    private void OnDisable() => ResetLevel();
+
     public void ExitLevel() {
         currentTarget = -edge;
         StartCoroutine(SlideLevel());
